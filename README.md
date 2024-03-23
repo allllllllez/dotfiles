@@ -12,10 +12,17 @@
 ## Installation（WIP）
 
 1. Install
+    - Windows のみ
 
-   ```bash
-   ./install.sh
-   ```
+       ```command
+       windows/install.bat
+       ```
+
+    - 共通 
+
+       ```bash session
+       ./install.sh
+       ```
 
 1. neovim plugin install
 
@@ -24,3 +31,4 @@
    ```
 
 1. Enjoy👍
+
