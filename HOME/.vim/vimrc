@@ -36,7 +36,8 @@ set showcmd
 "
 " カラースキーム（ベース。後の設定でちょっと改造する）
 " colorscheme murphy
-colorscheme slate
+" colorscheme slate
+colorscheme molokai
 " 行番号を表示
 set number
 " 現在の行を強調表示

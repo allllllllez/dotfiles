@@ -24,4 +24,4 @@ alias docker='winpty docker'
 alias nv='nvim'
 alias la='ls -la'
 
-# [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

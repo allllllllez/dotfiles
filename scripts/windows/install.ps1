@@ -1,4 +1,4 @@
-﻿# ==================================
+# ==================================
 # Setup
 # 
 # Usage:
@@ -115,3 +115,16 @@ try {
 }
 
 Write-Host "nvm-windows と Node.js のインストールが完了しました。"
+
+# ==================================
+# 
+# fzf（ファジーファインダー）
+# 
+# ==================================
+
+Write-Host "fzf をインストールしています..."
+
+Invoke-Expression "git clone --depth 1 https://github.com/junegunn/fzf.git $env:HOMEPATH/.fzf"
+Invoke-Expression "/Git/bin/bash.exe $env:HOMEPATH/.fzf/install --all"
+
+Write-Host "fzf のインストールが完了しました。"
