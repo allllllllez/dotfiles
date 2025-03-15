@@ -5,21 +5,23 @@
 #     powershell -NoProfile -ExecutionPolicy Unrestricted ./install.ps1 install.ps1
 # ==================================
 
+# ==================================
 # 
 # Git for windows
 # ※設定（.gitconfig）は別途
 #
+# ==================================
 
-# get latest download url for git-for-windows 64-bit exe
+# git-for-windows 64-bit の最新リリースを取得
 $git_url = "https://api.github.com/repos/git-for-windows/git/releases/latest"
 $asset = Invoke-RestMethod -Method Get -Uri $git_url | % assets | where name -like "*64-bit.exe"
-echo "git_url: "$git_url
-echo "asset: "$asset
+Write-Host "git_url: $git_url"
+Write-Host "asset: $asset"
 
-# download installer
-$installer = "$env:temp\$($asset.name)"
-echo "installer: "$installer 
-Invoke-WebRequest -Uri $asset.browser_download_url -OutFile $installer
+# インストーラーをダウンロード
+$git_installer = "$env:temp\$($asset.name)"
+Write-Host "installer: $git_installer"
+Invoke-WebRequest -Uri $asset.browser_download_url -OutFile $git_installer
 
 # inf file
 # https://github.com/git-for-windows/git/wiki/Silent-or-Unattended-Installation
@@ -39,30 +41,38 @@ CRLFOption=CRLFCommitAsIs
 '@
 
 # run installer
-$install_args = "/SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /CLOSEAPPLICATIONS /RESTARTAPPLICATIONS /LOADINF=""$git_install_inf"""
-Start-Process -FilePath $installer -ArgumentList $install_args -Wait
+$git_install_args = "/SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /CLOSEAPPLICATIONS /RESTARTAPPLICATIONS /LOADINF=""$git_install_inf"""
+Start-Process -FilePath $git_installer -ArgumentList $git_install_args -Wait
 
 # 最新化
 # git update-git-for-windows
 
+Write-Host "git-for-windows のインストールが完了しました。"
+
+# ==================================
 # 
 # AWS CLI v2
 # ※credentialは手動で設定する
 # 
+# ==================================
 
 # /quiet は効かない
 msiexec.exe /i https://awscli.amazonaws.com/AWSCLIV2.msi
 
+# ==================================
 # 
 # Cloud SDK
 # 
+# ==================================
 
 (New-Object Net.WebClient).DownloadFile("https://dl.google.com/dl/cloudsdk/channels/rapid/GoogleCloudSDKInstaller.exe", "$env:Temp\GoogleCloudSDKInstaller.exe")
 & $env:Temp\GoogleCloudSDKInstaller.exe
 
+# ==================================
 # 
 # nvm-windows (Node.js バージョン管理)
 # 
+# ==================================
 
 # nvm-windows の最新リリースを取得
 $nvm_git_url = "https://api.github.com/repos/coreybutler/nvm-windows/releases/latest"
