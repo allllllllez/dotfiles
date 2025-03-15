@@ -6,9 +6,9 @@
 [gui]
         encoding = utf-8
 [difftool "code"]
-        cmd = code --wait --diff \"\" \"\"
+        cmd = code --wait --diff \"$LOCAL\" \"$REMOTE\"
 [mergetool "code"]
-        cmd = code --wait \"\"
+        cmd = code --wait \"$MERGED\"
 [filter "lfs"]
         clean = git-lfs clean -- %f
         smudge = git-lfs smudge -- %f

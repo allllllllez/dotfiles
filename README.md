@@ -1,7 +1,7 @@
 # dotfiles
 
 ## Overview
-俺の俺による俺のための設定ファイルセットです
+俺の俺による俺のための設定ファイルセットです。インストールもするやつ
 
 ## Supported OS（WIP）
 - Windows
@@ -11,24 +11,40 @@
 
 ## Installation（WIP）
 
+### Windows
+1. Download
+
+   ```bash
+   git clone https://github.com/allllllllez/dotfiles.git
+   cd dotfiles
+   ```
+
 1. Install
-    - Windows のみ
+   コマンドプロンプト（**管理者として実行**で起動すること[^1]）で次を実行：
 
-       ```command
-       windows/install.bat
-       ```
+   ```command
+   scripts/windows/install.bat
+   ```
 
-    - 共通 
+[^1]: mklink を実行するために必要。
 
-       ```bash session
-       ./install.sh
-       ```
+### Linux（WSL）
+1. Download
+   [Windows](#windows) の手順と同様 [^2]
 
-1. neovim plugin install
+1. Install
+
+   ```bash session
+   ./install.sh
+   ```
+
+2. neovim plugin install
 
    ```bash
    vi --headless -c 'Lazy! sync' -c 'qall'
    ```
+
+[^2]: Win・Linux 共通でもいいっちゃいいけど。。。
 
 1. Enjoy👍
 
