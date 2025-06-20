@@ -9,6 +9,7 @@
 # 
 # Git for windows
 # ※設定（.gitconfig）は別途
+# winget install git ではオプション指定ができないのでインストーラからインストール
 #
 # ==================================
 
@@ -51,80 +52,29 @@ Write-Host "git-for-windows のインストールが完了しました。"
 
 # ==================================
 # 
-# AWS CLI v2
-# ※credentialは手動で設定する
+# その他ツール
 # 
 # ==================================
 
-# /quiet は効かない
-msiexec.exe /i https://awscli.amazonaws.com/AWSCLIV2.msi
+winget install googlechrome
+winget install -i vscode # TODO： -i 必要？
+winget install Python.Python
+winget install docker
+winget install obs
+winget install obsidian
+winget install ollama
+winget install Amazon.AWSCLI
+winget install Google.CloudSDK
+winget install jqlang.jq
 
-# ==================================
-# 
-# Cloud SDK
-# 
-# ==================================
-
-(New-Object Net.WebClient).DownloadFile("https://dl.google.com/dl/cloudsdk/channels/rapid/GoogleCloudSDKInstaller.exe", "$env:Temp\GoogleCloudSDKInstaller.exe")
-& $env:Temp\GoogleCloudSDKInstaller.exe
-
-# ==================================
-# 
 # nvm-windows (Node.js バージョン管理)
-# 
-# ==================================
+winget install CoreyButler.NVMforWindows
 
-# nvm-windows の最新リリースを取得
-$nvm_git_url = "https://api.github.com/repos/coreybutler/nvm-windows/releases/latest"
-$nvm_asset = Invoke-RestMethod -Method Get -Uri $nvm_git_url | % assets | where name -like "*nvm-setup.exe"
-Write-Host "git_url: $nvm_git_url"
-Write-Host "nvm-windows の最新バージョンを取得しました: $($nvm_asset.name)"
+# fzf (ファジーファインダー)
+winget install fzf
 
-# インストーラーをダウンロード
-$nvm_installer = "$env:temp\$($nvm_asset.name)"
-Write-Host "インストーラーをダウンロードしています: $nvm_installer"
-Invoke-WebRequest -Uri $nvm_asset.browser_download_url -OutFile $nvm_installer
+# Unity
+winget install Unity.Unity.6000
 
-# サイレントインストールを実行
-Write-Host "nvm-windows をインストールしています..."
-Start-Process -FilePath $nvm_installer -ArgumentList "/SILENT /NORESTART" -Wait
-
-# 環境変数を更新するためにPowerShellセッションを更新
-$env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
-
-$nvm_exe = "$($env:LOCALAPPDATA)\nvm\nvm.exe"
-# cf. https://github.com/coreybutler/nvm-windows/issues/22
-$env:NVM_HOME = "$($env:LOCALAPPDATA)\nvm"
-$env:NVM_SYMLINK = ""
-
-# Node.js LTS バージョンをインストール
-Write-Host "Node.js LTS バージョンをインストールしています..."
-try {
-    # 最新のLTSバージョンをインストール
-    Invoke-Expression "$nvm_exe install lts"
-    
-    # インストールしたバージョンを使用するように設定
-    Invoke-Expression "$nvm_exe use lts"
-    
-    # # インストールの確認
-    # $node_version = node -v
-    $npm_version = Invoke-Expression "$nvm_exe -v"
-    # Write-Host "Node.js $node_version と npm $npm_version がインストールされました"
-} catch {
-    Write-Warning "Node.js のインストールに問題がありました。手動でインストールを確認してください。"
-}
-
-Write-Host "nvm-windows と Node.js のインストールが完了しました。"
-
-# ==================================
-# 
-# fzf（ファジーファインダー）
-# 
-# ==================================
-
-Write-Host "fzf をインストールしています..."
-
-Invoke-Expression "git clone --depth 1 https://github.com/junegunn/fzf.git $env:HOMEPATH/.fzf"
-Invoke-Expression "/Git/bin/bash.exe $env:HOMEPATH/.fzf/install --all"
-
-Write-Host "fzf のインストールが完了しました。"
+# Epic Games Launcher
+winget install EpicGames.EpicGamesLauncher
