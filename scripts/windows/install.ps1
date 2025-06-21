@@ -59,6 +59,14 @@ Write-Host "git-for-windows のインストールが完了しました。"
 winget install googlechrome
 winget install -i vscode # TODO： -i 必要？
 winget install Python.Python
+
+# WSL
+
+Start-Process wsl --install
+
+# Docker
+# WSL backend のため、WSLより後にインストールする
+
 winget install docker
 winget install obs
 winget install obsidian
@@ -78,3 +86,6 @@ winget install Unity.Unity.6000
 
 # Epic Games Launcher
 winget install EpicGames.EpicGamesLauncher
+
+# インストール確認
+winget list
