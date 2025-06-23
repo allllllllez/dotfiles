@@ -48,8 +48,6 @@ Start-Process -FilePath $git_installer -ArgumentList $git_install_args -Wait
 # 最新化
 # git update-git-for-windows
 
-Write-Host "git-for-windows のインストールが完了しました。"
-
 # ==================================
 # 
 # その他ツール
@@ -61,17 +59,34 @@ winget install -i vscode # TODO： -i 必要？
 winget install Python.Python
 
 # WSL
-
 Start-Process wsl --install
+dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+wsl.exe --install Ubuntu
 
 # Docker
 # WSL backend のため、WSLより後にインストールする
+winget install Docker.DockerDesktop
 
-winget install docker
-winget install obs
+# OBS Studio + virtual cam plugin
+# 起動後に「ツール」>「obs virtual cam」で起動する必要あり
+winget install OBSProject.OBSStudio
+
+# obs-virtual-cam プラグインの Installer.exe をダウンロードして実行
+$vcam_url = "https://api.github.com/repos/miaulightouch/obs-virtual-cam/releases/latest"
+$vcam_asset = Invoke-RestMethod -Method Get -Uri $vcam_url | % assets | where name -like "*Installer.exe"
+$vcam_installer = "$env:temp\$($vcam_asset.name)"
+Write-Host "Downloading obs-virtual-cam installer: $($vcam_asset.browser_download_url)"
+Invoke-WebRequest -Uri $vcam_asset.browser_download_url -OutFile $vcam_installer
+
+# サイレントインストール（/S オプションが使える場合）
+Start-Process -FilePath $vcam_installer -ArgumentList "/S" -Wait
+
+
+winget install Microsoft.WindowsTerminal
 winget install obsidian
 winget install ollama
 winget install Amazon.AWSCLI
+winget install Amazon.AWSVPNClient
 winget install Google.CloudSDK
 winget install jqlang.jq
 
@@ -82,10 +97,40 @@ winget install CoreyButler.NVMforWindows
 winget install fzf
 
 # Unity
-winget install Unity.Unity.6000
+winget install Unity.Unity
 
 # Epic Games Launcher
 winget install EpicGames.EpicGamesLauncher
 
+# ==================================
+# 
+# フォント ※ダウンロードのみ
+# 
+# ==================================
+
+# PlemolJP NF
+$plemoljp_url = "https://api.github.com/repos/yuru7/PlemolJP/releases/latest"
+$plemoljp_asset = Invoke-RestMethod -Method Get -Uri $plemoljp_url | % assets | where name -like "*NF*.zip"
+Write-Host "git_url: $plemoljp_url"
+Write-Host "asset: $($plemoljp_asset.name)"
+
+# ダウンロード
+$plemoljp_installer = "$env:temp\$($plemoljp_asset.name)"
+Write-Host "plemoljp_installer: $plemoljp_installer"
+Invoke-WebRequest -Uri $plemoljp_asset.browser_download_url -OutFile $plemoljp_installer
+
+# JKゴシックL
+$jk_font_url = "https://font.cutegirl.jp/wp-content/uploads/2015/08/jk-go-l-1.zip"
+$download_folder = [Environment]::GetFolderPath("UserProfile") + "\Downloads"
+$jk_font_zip = Join-Path $download_folder "jk-go-l-1.zip"
+Write-Host "Downloading JKゴシックLフォント: $jk_font_url"
+Invoke-WebRequest -Uri $jk_font_url -OutFile $jk_font_zip
+
+# JKゴシックM
+$jk_font_m_url = "https://font.cutegirl.jp/wp-content/uploads/2015/08/jk-go-m-1.zip"
+$jk_font_m_zip = Join-Path $download_folder "jk-go-m-1.zip"
+Write-Host "Downloading JKゴシックMフォント: $jk_font_m_url"
+Invoke-WebRequest -Uri $jk_font_m_url -OutFile $jk_font_m_zip
+
 # インストール確認
-winget list
+bash -c 'winget.exe list | grep winget'
