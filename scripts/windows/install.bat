@@ -1,5 +1,5 @@
 @echo off
-:: ?x??????????W?J?i!)???g?????????
+:: 遅延環境変数の展開（!)を使うための設定
 setlocal enabledelayedexpansion
 
 ::
@@ -7,7 +7,7 @@ setlocal enabledelayedexpansion
 ::
 
 echo Start installation...
-:: ???I????s?|???V?[???X
+:: 一時的に実行ポリシーを変更
 powershell -NoProfile -ExecutionPolicy Unrestricted %~dp0\install.ps1 %~dp0\install.ps1
 echo Finish installation successfully.
 
@@ -16,8 +16,8 @@ echo Finish installation successfully.
 ::
 
 echo Start copy dotfiles...
-:: ???t?@?C????????N?i?n?[?h?????N?j????
-:: ???[?U?[?z?[???f?B???N?g??
+:: 設定ファイルのリンク（ハードリンク）を作成
+:: ユーザーホームディレクトリ
 set HOMEDIR=%HOMEPATH%
 set BAKDIR=%HOMEDIR%\.dotfiles.bak
 set SRCDIR=%~dp0\..\..\HOME
@@ -25,7 +25,7 @@ set SRCDIR=%~dp0\..\..\HOME
 mklink /H %HOMEPATH%\.bashrc %~dp0\..\HOME\.bashrc
 mklink /H %HOMEPATH%\.gitconfig %~dp0\..\HOME\.gitconfig
 
-:: ?o?b?N?A?b?v?f?B???N?g????
+:: バックアップディレクトリ作成
 if not exist !BAKDIR! (
     mkdir !BAKDIR!
 )
@@ -42,7 +42,7 @@ for %%F in (%SRCDIR%\*) do (
     mklink "%HOMEDIR%\!FILE!" "%SRCDIR%\!FILE!"
 )
 
-:: ?f?B???N?g??
+:: ディレクトリ
 for /D %%F in (%SRCDIR%\*) do (
     set FILE=%%~nxF
     if exist %HOMEDIR%\!FILE! (
