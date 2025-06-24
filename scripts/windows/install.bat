@@ -1,5 +1,5 @@
 @echo off
-:: ’x‰„ŠÂ‹«•Ï”‚Ì“WŠJi!)‚ðŽg‚¤‚½‚ß‚ÌÝ’è
+:: ï¿½xï¿½ï¿½ï¿½Â‹ï¿½ï¿½Ïï¿½ï¿½Ì“Wï¿½Jï¿½i!)ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ß‚ÌÝ’ï¿½
 setlocal enabledelayedexpansion
 
 ::
@@ -7,7 +7,7 @@ setlocal enabledelayedexpansion
 ::
 
 echo Start installation...
-:: ˆêŽž“I‚ÉŽÀsƒ|ƒŠƒV[‚ð•ÏX
+:: ï¿½êŽžï¿½Iï¿½ÉŽï¿½ï¿½sï¿½|ï¿½ï¿½ï¿½Vï¿½[ï¿½ï¿½ÏX
 powershell -NoProfile -ExecutionPolicy Unrestricted %~dp0\install.ps1 %~dp0\install.ps1
 echo Finish installation successfully.
 
@@ -16,22 +16,19 @@ echo Finish installation successfully.
 ::
 
 echo Start copy dotfiles...
-:: Ý’èƒtƒ@ƒCƒ‹‚ÌƒŠƒ“ƒNiƒn[ƒhƒŠƒ“ƒNj‚ðì¬
-:: ƒ†[ƒU[ƒz[ƒ€ƒfƒBƒŒƒNƒgƒŠ
+:: ï¿½Ý’ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Ìƒï¿½ï¿½ï¿½ï¿½Nï¿½iï¿½nï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½jï¿½ï¿½ï¿½ì¬
+:: ï¿½ï¿½ï¿½[ï¿½Uï¿½[ï¿½zï¿½[ï¿½ï¿½ï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½
 set HOMEDIR=%HOMEPATH%
 set BAKDIR=%HOMEDIR%\.dotfiles.bak
 set SRCDIR=%~dp0\..\..\HOME
 
-mklink /H %HOMEPATH%\.bashrc %~dp0\..\HOME\.bashrc
-mklink /H %HOMEPATH%\.gitconfig %~dp0\..\HOME\.gitconfig
-
-:: ƒoƒbƒNƒAƒbƒvƒfƒBƒŒƒNƒgƒŠì¬
+:: ï¿½oï¿½bï¿½Nï¿½Aï¿½bï¿½vï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½ì¬
 if not exist !BAKDIR! (
     mkdir !BAKDIR!
 )
 
-:: HOMEƒfƒBƒŒƒNƒgƒŠ“à‚Ìƒtƒ@ƒCƒ‹‚ðˆ—
-:: ƒtƒ@ƒCƒ‹
+:: HOMEï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Ìƒtï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+:: ï¿½tï¿½@ï¿½Cï¿½ï¿½
 for %%F in (%SRCDIR%\*) do (
     set FILE=%%~nxF
     if exist %HOMEDIR%\!FILE! (
@@ -42,7 +39,7 @@ for %%F in (%SRCDIR%\*) do (
     mklink "%HOMEDIR%\!FILE!" "%SRCDIR%\!FILE!"
 )
 
-:: ƒfƒBƒŒƒNƒgƒŠ
+:: ï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½
 for /D %%F in (%SRCDIR%\*) do (
     set FILE=%%~nxF
     if exist %HOMEDIR%\!FILE! (
