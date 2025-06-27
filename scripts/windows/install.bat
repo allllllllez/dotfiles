@@ -1,5 +1,5 @@
 @echo off
-:: ï¿½xï¿½ï¿½ï¿½Â‹ï¿½ï¿½Ïï¿½ï¿½Ì“Wï¿½Jï¿½i!)ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ß‚ÌÝ’ï¿½
+:: ’x‰„ŠÂ‹«•Ï”‚Ì“WŠJi!)‚ðŽg‚¤‚½‚ß‚ÌÝ’è
 setlocal enabledelayedexpansion
 
 ::
@@ -7,7 +7,7 @@ setlocal enabledelayedexpansion
 ::
 
 echo Start installation...
-:: ï¿½êŽžï¿½Iï¿½ÉŽï¿½ï¿½sï¿½|ï¿½ï¿½ï¿½Vï¿½[ï¿½ï¿½ÏX
+:: ˆêŽž“I‚ÉŽÀsƒ|ƒŠƒV[‚ð•ÏX
 powershell -NoProfile -ExecutionPolicy Unrestricted %~dp0\install.ps1 %~dp0\install.ps1
 echo Finish installation successfully.
 
@@ -16,19 +16,19 @@ echo Finish installation successfully.
 ::
 
 echo Start copy dotfiles...
-:: ï¿½Ý’ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Ìƒï¿½ï¿½ï¿½ï¿½Nï¿½iï¿½nï¿½[ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½jï¿½ï¿½ï¿½ì¬
-:: ï¿½ï¿½ï¿½[ï¿½Uï¿½[ï¿½zï¿½[ï¿½ï¿½ï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½
+:: Ý’èƒtƒ@ƒCƒ‹‚ÌƒŠƒ“ƒNiƒn[ƒhƒŠƒ“ƒNj‚ðì¬
+:: ƒ†[ƒU[ƒz[ƒ€ƒfƒBƒŒƒNƒgƒŠ
 set HOMEDIR=%HOMEPATH%
 set BAKDIR=%HOMEDIR%\.dotfiles.bak
 set SRCDIR=%~dp0\..\..\HOME
 
-:: ï¿½oï¿½bï¿½Nï¿½Aï¿½bï¿½vï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½ì¬
+:: ƒoƒbƒNƒAƒbƒvƒfƒBƒŒƒNƒgƒŠì¬
 if not exist !BAKDIR! (
     mkdir !BAKDIR!
 )
 
-:: HOMEï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Ìƒtï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-:: ï¿½tï¿½@ï¿½Cï¿½ï¿½
+:: HOMEƒfƒBƒŒƒNƒgƒŠ“à‚Ìƒtƒ@ƒCƒ‹‚ðˆ—
+:: ƒtƒ@ƒCƒ‹
 for %%F in (%SRCDIR%\*) do (
     set FILE=%%~nxF
     if exist %HOMEDIR%\!FILE! (
@@ -39,7 +39,7 @@ for %%F in (%SRCDIR%\*) do (
     mklink "%HOMEDIR%\!FILE!" "%SRCDIR%\!FILE!"
 )
 
-:: ï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½
+:: ƒfƒBƒŒƒNƒgƒŠ
 for /D %%F in (%SRCDIR%\*) do (
     set FILE=%%~nxF
     if exist %HOMEDIR%\!FILE! (

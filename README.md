@@ -26,7 +26,21 @@
    scripts/windows/install.bat
    ```
 
-[^1]: mklink を実行するために必要。
+1. その他設定
+    1. PowerPointリボンのカスタマイズ
+      - ホームから「オプション」> 「リボンのユーザー設定」
+         - <details>
+           <summary>画像</summary>
+
+           ![alt text](images/image_1.png)
+           </details>
+    1. PowerPoint・Excel リボンのカスタマイズ
+      - ホームから「オプション」> 「リボンのユーザー設定」
+         - <details>
+           <summary>画像</summary>
+
+           ![alt text](images/image_2.png)
+           </details>
 
 1. ログ
 
@@ -71,6 +85,10 @@ Microsoft Visual C++ 2015 UWP Desktop … Microsoft.VCLibs.Desktop.14           
 Windows ターミナル                      Microsoft.WindowsTerminal               1.22.11141.0                     winget
 Windows Package Manager Source (winget… MSIX\Microsoft.Winget.Source_2025.623.… 2025.623.652.29   
 ```
+
+</details>
+
+[^1]: mklink を実行するために必要。
 
 ### Linux（WSL）
 1. Download

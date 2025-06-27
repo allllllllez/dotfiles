@@ -59,7 +59,7 @@ winget install -i vscode # TODO： -i 必要？
 winget install Python.Python
 
 # WSL
-Start-Process wsl --install
+wsl --install
 dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
 wsl.exe --install Ubuntu
 
