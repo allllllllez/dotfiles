@@ -5,8 +5,9 @@
 
 ## Supported OS（WIP）
 - Windows
-- Ubuntu
-    - WSL2 Ubuntu 含む
+- Linux
+    - Ubuntu 想定
+    - WSL2も含む（むしろ WSL2 で利用する想定）
 - ChromeOS Linux([Debian](https://support.google.com/chromebook/answer/9145439))
 
 ## Installation（WIP）
