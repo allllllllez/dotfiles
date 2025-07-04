@@ -12,6 +12,7 @@
 ## Installation（WIP）
 
 ### Windows
+
 1. Download
 
    ```bash
@@ -102,7 +103,7 @@
 1. Install
 
    ```bash session
-   ./install.sh
+   ./scripts/wsl2/install.sh
    ```
 
 2. neovim plugin install

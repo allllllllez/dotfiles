@@ -1,18 +1,22 @@
 [core]
-        autocrlf = false
-        excludesfile = gitignore_global
+    autocrlf = false
+    excludesfile = gitignore_global
+    editor = vim
 [push]
-        default = upstream
+    default = upstream
 [gui]
-        encoding = utf-8
+    encoding = utf-8
 [difftool "code"]
-        cmd = code --wait --diff \"$LOCAL\" \"$REMOTE\"
+    cmd = code --wait --diff \"$LOCAL\" \"$REMOTE\"
 [mergetool "code"]
-        cmd = code --wait \"$MERGED\"
+    cmd = code --wait \"$MERGED\"
 [filter "lfs"]
-        clean = git-lfs clean -- %f
-        smudge = git-lfs smudge -- %f
-        process = git-lfs filter-process
-        required = true
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
+    required = true
 [credential "https://git-codecommit.ap-northeast-1.amazonaws.com"]
-	provider = generic
+    provider = generic
+[user]
+    email = you@example.com
+    name = you
