@@ -96,23 +96,22 @@
 
 [^1]: mklink を実行するために必要。
 
-### Linux（WSL）
+### Linux
+
 1. Download
    [Windows](#windows) の手順と同様 [^2]
 
-1. Install
+2. Install
 
    ```bash session
    ./scripts/wsl2/install.sh
    ```
 
-2. neovim plugin install
-
-   ```bash
-   vi --headless -c 'Lazy! sync' -c 'qall'
-   ```
-
 [^2]: Win・Linux 共通でもいいっちゃいいけど。。。
+
+### ChromeOS Linux
+
+WIP
 
 1. Enjoy👍
 
