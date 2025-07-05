@@ -42,6 +42,9 @@ sudo ./aws/install
     && sudo apt update \
     && sudo apt install gh -y
 
+## nvm
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+
 ## Claude code
 npm install -g @anthropic-ai/claude-code
 
