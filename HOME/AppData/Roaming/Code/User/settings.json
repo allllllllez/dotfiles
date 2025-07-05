@@ -1,0 +1,62 @@
+{
+    "editor.multiCursorModifier": "ctrlCmd",
+    "files.autoSave": "afterDelay",
+    "files.insertFinalNewline": true,
+    "editor.renderWhitespace": "all",
+    "editor.acceptSuggestionOnEnter": "smart",
+    "editor.fontFamily": "\"PlemolJP Console NF\",\"MSゴシック\", Consolas, 'Courier New', monospace",
+    "editor.largeFileOptimizations": false,
+    "files.autoSaveDelay": 1000,
+    "editor.columnSelection": false,
+    "terminal.integrated.inheritEnv": false,
+    "workbench.editorAssociations": {
+        "*.ipynb": "jupyter-notebook"
+    },
+    "workbench.startupEditor": "newUntitledFile",
+    "diffEditor.ignoreTrimWhitespace": false,
+    "files.watcherExclude": {
+        "**/.bloop": true,
+        "**/.metals": true,
+        "**/.ammonite": true
+    },
+    "terminal.integrated.profiles.windows": {
+        "Git Bash": {
+            "path": "C:\\Git\\bin\\bash.exe",
+            "args": ["--login"]
+        }
+    },
+    "terminal.integrated.defaultProfile.windows": "Git Bash",
+    "files.associations": {
+        "*.svg": "drawio"
+    },
+    "http.proxyStrictSSL": false,
+    "markdown-pdf.highlightStyle": "github.css",
+    "[python]": {
+        "editor.formatOnType": true,
+        "editor.defaultFormatter": "ms-python.python",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit"
+        },
+    },
+    "isort.args":["--profile", "black"],
+    "flake8.args": [
+        "--max-line-length=100",
+        "--max-complexity=10",
+    ],
+    "mypy-type-checker.args": [
+    ],
+    "autoDocstring.docstringFormat": "numpy",
+    "autoDocstring.quoteStyle": "'''",
+    "editor.unicodeHighlight.invisibleCharacters": false,
+    "github.copilot.editor.enableAutoCompletions": true,
+    "remote.SSH.remotePlatform": {
+        "tmp-tf": "linux",
+        "dom": "linux"
+    },
+    "extensions.ignoreRecommendations": true,
+    "workbench.colorTheme": "Default Dark+",
+    "github.copilot.chat.localeOverride": "ja",
+    "snowflake.connectionsConfigFile": "C:\\Users\\MihoKajiya\\.snowflake\\connections.toml",
+    "workbench.activityBar.location": "top"
+}
