@@ -149,7 +149,7 @@ else # Linux環境のみ
 
     # ssh-add
     eval `ssh-agent`
-    ssh-add /home/kajiya/.ssh/datum/datum_github
+    ssh-add /home/you/.ssh/github # 必要に応じてuncomment、パスは自身の環境に合わせて変更
 fi
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
