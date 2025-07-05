@@ -49,6 +49,11 @@
         - [スタートアップ](~/AppData/Roaming/Microsoft/Windows/Start\ Menu/Programs/Startup/) に必要なものを突っ込んでいく
     1. フォント
         - Install でフォントファイルのダウンロードだけしている（はず）。必要に応じて手動でインストール
+    1. エクスプローラ
+        - 隠しフォルダ表示
+        - 拡張子表示
+    1. Windowsの機能
+        - クリップボード起動（Win + v）
 
 1. 参考
     - ログ  
