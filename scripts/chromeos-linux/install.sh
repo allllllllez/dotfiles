@@ -104,6 +104,6 @@ nvim --headless -c 'Lazy! sync' -c 'qall'
 
 # HOME/bin and NeoVim PATH
 cat << 'EOF' >> ~/.bashrc 
-export PATH="~/bin:~/neovim/build/bin/nvim:$PATH"
+export PATH="~/neovim/build/bin/nvim:$PATH"
 EOF
 
