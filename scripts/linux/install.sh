@@ -22,7 +22,10 @@ sudo apt install -y \
     python3 python3-venv \
     npm
 
-# starchip
+## Nerd-fonts
+git clone https://github.com/ryanoasis/nerd-fonts.git && cd nerd-fonts && ./install.sh
+
+## starchip
 curl -sS https://starship.rs/install.sh | sh
 
 ## AWS CLI
@@ -46,6 +49,9 @@ sudo ./aws/install
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
 
 ## Claude code
+nvm install --lts
+nvm use --lts
+
 npm install -g @anthropic-ai/claude-code
 
 

@@ -117,7 +117,13 @@
 
 ### ChromeOS Linux
 
-WIP
+1. Download
+   [Windows](#windows) の手順と同様 [^2]
 
-1. Enjoy👍
+2. Install
 
+   ```bash session
+   bash ./scripts/chromeos-linux/install.sh
+   ```
+
+Enjoy👍
