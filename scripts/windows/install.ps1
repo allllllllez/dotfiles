@@ -89,6 +89,7 @@ winget install Amazon.AWSCLI
 winget install Amazon.AWSVPNClient
 winget install Google.CloudSDK
 winget install jqlang.jq
+winget install Starship.Starship
 
 # nvm-windows (Node.js バージョン管理)
 winget install CoreyButler.NVMforWindows

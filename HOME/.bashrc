@@ -146,6 +146,9 @@ else # Linux環境のみ
     ssh-add /home/you/.ssh/github # 必要に応じてuncomment、パスは自身の環境に合わせて変更
 fi
 
+# starship
+eval "$(starship init bash)"
+
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
