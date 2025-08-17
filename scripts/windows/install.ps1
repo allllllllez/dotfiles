@@ -133,5 +133,9 @@ $jk_font_m_zip = Join-Path $download_folder "jk-go-m-1.zip"
 Write-Host "Downloading JKゴシックMフォント: $jk_font_m_url"
 Invoke-WebRequest -Uri $jk_font_m_url -OutFile $jk_font_m_zip
 
+# Nerd Fonts
+Install-PSResource -Name NerdFonts # プロンプトで確認が必要、-Confirm:$false でも回避できないかも
+Import-Module -Name NerdFonts
+
 # インストール確認
 bash -c 'winget.exe list | grep winget'
