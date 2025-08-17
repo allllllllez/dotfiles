@@ -89,6 +89,7 @@ winget install Amazon.AWSCLI
 winget install Amazon.AWSVPNClient
 winget install Google.CloudSDK
 winget install jqlang.jq
+winget install Starship.Starship
 
 # nvm-windows (Node.js バージョン管理)
 winget install CoreyButler.NVMforWindows
@@ -101,6 +102,13 @@ winget install Unity.Unity
 
 # Epic Games Launcher
 winget install EpicGames.EpicGamesLauncher
+
+# Claude code
+# winget install Anthropic.ClaudeCode でインストールできる説があるが、一旦、公式準拠で行く
+nvm on
+nvm install latest
+nvm use latest
+npm install -g @anthropic-ai/claude-code
 
 # ==================================
 # 
@@ -131,6 +139,10 @@ $jk_font_m_url = "https://font.cutegirl.jp/wp-content/uploads/2015/08/jk-go-m-1.
 $jk_font_m_zip = Join-Path $download_folder "jk-go-m-1.zip"
 Write-Host "Downloading JKゴシックMフォント: $jk_font_m_url"
 Invoke-WebRequest -Uri $jk_font_m_url -OutFile $jk_font_m_zip
+
+# Nerd Fonts
+Install-PSResource -Name NerdFonts # プロンプトで確認が必要、-Confirm:$false でも回避できないかも
+Import-Module -Name NerdFonts
 
 # インストール確認
 bash -c 'winget.exe list | grep winget'
