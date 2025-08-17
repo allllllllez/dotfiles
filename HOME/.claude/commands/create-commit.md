@@ -6,15 +6,32 @@
 - 必要なエラーハンドリングが実装されているか
 
 ### コミットメッセージのフォーマット
-[Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)に従う:
-- feat: 新機能
-- fix: バグ修正
-- docs: ドキュメントのみの変更
-- style: コードの意味に影響を与えない変更（空白、フォーマット、セミコロンの欠落など）
-- refactor: バグを修正せず、機能も追加しないコード変更
-- perf: パフォーマンスを向上させるコード変更
-- test: 不足しているテストの追加や既存のテストの修正
-- ci : CI 構成ファイルとスクリプトの変更 (例: GitHub Actions、Circle)
-- chore: ビルドプロセスや補助ツール、ライブラリなどの変更
+- [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)に従うこと
 
-例: feat: add user authentication
+#### テンプレート
+
+```
+[${prefix}] 実装の概要を50文字以下で記述 ex)fix:ユーザー情報にnameが足りないのでnameを追加
+
+コミット本文(50文字で収まらない場合はこちらに)...
+```
+
+#### Prefix
+- feat     新規機能、新規ファイル追加
+- change   仕様変更による機能修正
+- test     テスト追加や間違っていたテストの修正
+- delete   ファイル削除
+- fix      バグ修正
+- style    空白、セミコロン、行、コーディングフォーマットなどの修正
+- refactor 既存の振る舞いを変更しないコード改善
+- ci       CI 構成ファイルとスクリプトの変更 (例: GitHub Actions、Circle CI)
+- chore    ビルド、補助ツール、ライブラリ関連、開発環境変更
+- docs     ドキュメントのみ修正
+
+#### Rules
+1. コミット本文を記述する場合は、概要とコミット本文の間に空行1行あける
+2. 概要は50文字以下で記述する
+3. 概要の末尾はピリオドで終わらない
+4. 概要は命令法で記述する
+5. 本文は72文字で改行する
+6. 本文ではhowではなくwhatとwhyを記述する
