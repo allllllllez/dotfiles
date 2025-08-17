@@ -164,7 +164,7 @@ export NVM_DIR="$HOME/.nvm"
 # aws sandbox login
 # USAGE: $ aws_login 123456 > .env
 function aws_login() {
-    local session=`aws sts get-session-token --serial-number arn:aws:iam::921407950230:mfa/m.kajiya --token-code $1 --profile default`
+    local session=`aws sts get-session-token --serial-number arn:aws:iam::123456789012:mfa/your_mfa --token-code $1 --profile default`
     local AccessKeyId=`echo $session | jq -r '.Credentials.AccessKeyId'`
     local SecretAccessKey=`echo $session | jq -r '.Credentials.SecretAccessKey'`
     local SessionToken=`echo $session | jq -r '.Credentials.SessionToken'`

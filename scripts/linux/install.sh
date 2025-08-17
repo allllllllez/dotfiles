@@ -25,7 +25,7 @@ sudo apt install -y \
 ## Nerd-fonts
 git clone https://github.com/ryanoasis/nerd-fonts.git && cd nerd-fonts && ./install.sh
 
-## starchip
+## starship
 curl -sS https://starship.rs/install.sh | sh
 
 ## AWS CLI
