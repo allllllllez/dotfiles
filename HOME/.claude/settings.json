@@ -1,4 +1,30 @@
 {
+  "permissions": {
+    "deny": [
+      "Bash(sudo:*)",
+      "Read(**/*key*)",
+      "Bash(rm:*)",
+      "Write(.env*)",
+      "Bash(rm -rf:*)",
+      "Write(**/secrets/**)",
+      "Bash(curl:*)",
+      "Bash(wget:*)",
+      "Bash(git reset:*)",
+      "Bash(nc:*)",
+      "Bash(git rebase:*)",
+      "Bash(git add:*)",
+      "Bash(pip uninstall:*)",
+      "Read(.env.*)",
+      "Bash(psql:*)",
+      "Read(id_rsa)",
+      "Bash(mysql:*)",
+      "Read(id_ed25519)",
+      "Bash(mongod:*)",
+      "Read(**/*token*)",
+      "Read(**/*config.*ml*)",
+      "Read(**/*connections.*ml*)"
+    ]
+  },
   "hooks": {
     "Stop": [
       {
