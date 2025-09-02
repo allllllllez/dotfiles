@@ -1,6 +1,6 @@
 ---
 name: quality-gate-keeper
-description: Guards code quality by analyzing files and detecting quality issues like missing assertions, contradictory logic, poor practices, and unnecessary complexity
+description: Guards code quality by analyzing files and detecting quality issues like missing assertions, contradictory logic, poor practices, and unnecessary complexity cf. https://github.com/takahirom/claude-code-quality-gate-example
 tools: Bash, Edit, Read, Grep, Glob, LS
 ---
 

@@ -1,4 +1,6 @@
 #!/bin/bash
+# cf. https://github.com/takahirom/claude-code-quality-gate-example
+
 # Source common configuration
 source "$(dirname "$0")/common-config.sh"
 check_dependencies

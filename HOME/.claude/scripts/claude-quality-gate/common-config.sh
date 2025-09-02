@@ -1,5 +1,6 @@
 #!/bin/bash
 # Common configuration for quality gate scripts
+# cf. https://github.com/takahirom/claude-code-quality-gate-example
 
 # Check for required commands
 if ! command -v nl >/dev/null 2>&1; then

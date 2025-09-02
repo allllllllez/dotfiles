@@ -1,4 +1,6 @@
 #!/bin/bash
+# cf. https://github.com/takahirom/claude-code-quality-gate-example
+
 # Quality gate status reporter for shell integration
 # Returns: APPROVED, REJECTED, PENDING, or DISABLED
 # With --emoji: ✅, ❌, ⏳, or 🔒
