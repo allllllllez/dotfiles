@@ -1,0 +1,30 @@
+name: actionlint
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/**/*.yml"
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  actionlint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608  # v4.1.0
+      
+      - name: Run actionlint
+        shell: bash
+        run: |
+          if [[ -f ".github/actionlint-matcher.json" ]]; then
+            echo "::add-matcher::.github/actionlint-matcher.json"
+          else
+            echo "::warning::Matcher file .github/actionlint-matcher.json not found"
+          fi
+          bash <(curl https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
+          ./actionlint -color
