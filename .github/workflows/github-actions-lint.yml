@@ -81,3 +81,17 @@ jobs:
           ./ghalint version
       - name: Run ghalint
         run: ./ghalint run
+
+      - name: Download zizmor
+        run: |
+          curl -L -o zizmor.tar.gz "https://github.com/zizmorcore/zizmor/releases/download/v${ZIZMOR_VERSION}/zizmor-${ZIZMOR_ARCH}-${ZIZMOR_OS}.tar.gz"
+          if [ "$(shasum -a 256 zizmor.tar.gz)" != "${ZIZMOR_CHECKSUM}  zizmor.tar.gz" ]; then
+            echo "checksum mismatch"
+            echo "expected: ${ZIZMOR_CHECKSUM}  zizmor.tar.gz"
+            echo "actual: $(shasum -a 256 zizmor.tar.gz)"
+            exit 1
+          fi
+          tar xzf zizmor.tar.gz
+          ./zizmor version
+      - name: Run zizmor
+        run: ./zizmor run
