@@ -35,7 +35,7 @@ env:
   # NOTE: zizmor をアップデートする場合は、 ZIZMOR_VERSION, ZIZMOR_CHECKSUM を更新してください
   ZIZMOR_OS: unknown-linux-gnu
   ZIZMOR_ARCH: x86_64
-  ZIZMOR_VERSION: 1.12.0
+  ZIZMOR_VERSION: 1.12.1
   ZIZMOR_CHECKSUM: d73cd379078cae18d5439ce1f8716d30de5a4d2d29cac62cfbe01e6a8251fe0e
 
 concurrency:
