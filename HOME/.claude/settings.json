@@ -4,6 +4,7 @@
       "Bash(sudo:*)",
       "Bash(rm:*)",
       "Bash(rm -rf:*)",
+      "Bash(git add:*)",
       "Bash(git push:*)",
       "Bash(git commit:*)",
       "Bash(git reset:*)",
