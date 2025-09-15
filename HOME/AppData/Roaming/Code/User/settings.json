@@ -55,8 +55,12 @@
         "dom": "linux"
     },
     "extensions.ignoreRecommendations": true,
-    "workbench.colorTheme": "Default Dark+",
+    "workbench.colorTheme": "Visual Studio Dark",
     "github.copilot.chat.localeOverride": "ja",
     "snowflake.connectionsConfigFile": "C:\\Users\\MihoKajiya\\.snowflake\\connections.toml",
-    "workbench.activityBar.location": "top"
+    "workbench.activityBar.location": "top",
+    "extensions.supportNodeGlobalNavigator": true,
+    "workbench.editor.empty.hint": "hidden",
+    "chat.commandCenter.enabled": false,
+    "remote.autoForwardPortsSource": "hybrid"
 }
