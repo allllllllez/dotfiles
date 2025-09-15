@@ -35,7 +35,7 @@ env:
   # NOTE: zizmor をアップデートする場合は、 ZIZMOR_VERSION, ZIZMOR_CHECKSUM を更新してください
   ZIZMOR_OS: unknown-linux-gnu
   ZIZMOR_ARCH: x86_64
-  ZIZMOR_VERSION: 1.12.0
+  ZIZMOR_VERSION: 1.12.1
   ZIZMOR_CHECKSUM: d73cd379078cae18d5439ce1f8716d30de5a4d2d29cac62cfbe01e6a8251fe0e
 
 concurrency:
@@ -44,10 +44,9 @@ concurrency:
 
 jobs:
   lint:
+    name: Lint GitHub Actions
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    permissions:
-      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
@@ -81,3 +80,17 @@ jobs:
           ./ghalint version
       - name: Run ghalint
         run: ./ghalint run
+
+      - name: Download zizmor
+        run: |
+          curl -L -o zizmor.tar.gz "https://github.com/zizmorcore/zizmor/releases/download/v${ZIZMOR_VERSION}/zizmor-${ZIZMOR_ARCH}-${ZIZMOR_OS}.tar.gz"
+          if [ "$(shasum -a 256 zizmor.tar.gz)" != "${ZIZMOR_CHECKSUM}  zizmor.tar.gz" ]; then
+            echo "checksum mismatch"
+            echo "expected: ${ZIZMOR_CHECKSUM}  zizmor.tar.gz"
+            echo "actual: $(shasum -a 256 zizmor.tar.gz)"
+            exit 1
+          fi
+          tar xzf zizmor.tar.gz
+          ./zizmor --version
+      - name: Run zizmor
+        run: ./zizmor --color=always --persona=auditor .

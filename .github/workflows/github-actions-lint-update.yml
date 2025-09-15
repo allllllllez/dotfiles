@@ -7,6 +7,9 @@ on:
     - cron: "0 0 * * 0"
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 env:
   GHA_LINT_WORKFLOW_FILE: .github/workflows/github-actions-lint.yml
 
@@ -16,10 +19,12 @@ concurrency:
 
 jobs:
   update-binary-version:
+    name: Update Binary Version
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
-      contents: read
+      contents: write
+      pull-requests: write
     strategy:
       matrix:
         binary:
@@ -33,8 +38,10 @@ jobs:
 
       - name: Get Environment Names
         id: get-env-names
+        env:
+          BINARY_NAME: ${{ matrix.binary }}
         run: |
-          case ${{ matrix.binary }} in
+          case "${BINARY_NAME}" in
             actionlint)
               {
                 echo "os=ACTIONLINT_OS"
@@ -54,12 +61,19 @@ jobs:
           esac
       - name: Get Binary Info
         id: get-binary-info
+        env:
+          ENV_OS: ${{ steps.get-env-names.outputs.os }}
+          ENV_ARCH: ${{ steps.get-env-names.outputs.arch }}
+          ENV_VERSION: ${{ steps.get-env-names.outputs.version }}
+          ENV_CHECKSUM: ${{ steps.get-env-names.outputs.checksum }}
+          WORKFLOW_FILE: ${{ env.GHA_LINT_WORKFLOW_FILE }}
+          BINARY_NAME: ${{ matrix.binary }}
         run: |
-          os=$(grep -E "${{ steps.get-env-names.outputs.os }}: " "${{ env.GHA_LINT_WORKFLOW_FILE }}" | sed -e "s/ *${{ steps.get-env-names.outputs.os }}: //")
-          arch=$(grep -E "${{ steps.get-env-names.outputs.arch }}: " "${{ env.GHA_LINT_WORKFLOW_FILE }}" | sed -e "s/ *${{ steps.get-env-names.outputs.arch }}: //")
-          version=$(grep -E "${{ steps.get-env-names.outputs.version }}: " "${{ env.GHA_LINT_WORKFLOW_FILE }}" | sed -e "s/ *${{ steps.get-env-names.outputs.version }}: //")
-          checksum=$(grep -E "${{ steps.get-env-names.outputs.checksum }}: " "${{ env.GHA_LINT_WORKFLOW_FILE }}" | sed -e "s/ *${{ steps.get-env-names.outputs.checksum }}: //")
-          case ${{ matrix.binary }} in
+          os=$(grep -E "${ENV_OS}: " "${WORKFLOW_FILE}" | sed -e "s/ *${ENV_OS}: //")
+          arch=$(grep -E "${ENV_ARCH}: " "${WORKFLOW_FILE}" | sed -e "s/ *${ENV_ARCH}: //")
+          version=$(grep -E "${ENV_VERSION}: " "${WORKFLOW_FILE}" | sed -e "s/ *${ENV_VERSION}: //")
+          checksum=$(grep -E "${ENV_CHECKSUM}: " "${WORKFLOW_FILE}" | sed -e "s/ *${ENV_CHECKSUM}: //")
+          case "${BINARY_NAME}" in
             actionlint)
               name=actionlint
               owner=rhysd
