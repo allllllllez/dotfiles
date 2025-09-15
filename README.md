@@ -3,14 +3,14 @@
 ## Overview
 俺の俺による俺のための設定ファイルセットです。インストールもするやつ
 
-## Supported OS（WIP）
+## Supported OS
 - Windows
 - Linux
     - Ubuntu 想定
     - WSL2も含む（むしろ WSL2 で利用する想定）
 - ChromeOS Linux([Debian](https://support.google.com/chromebook/answer/9145439))
 
-## Installation（WIP）
+## Installation
 
 ### Windows
 

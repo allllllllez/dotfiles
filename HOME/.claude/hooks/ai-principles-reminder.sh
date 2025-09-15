@@ -1,4 +1,6 @@
 #!/bin/bash
+# cf. https://zenn.dev/kazuph/articles/483d6cf5f3798c
+
 # AI運用5原則 Hook
 # 標準入力からJSONを読み取る
 INPUT=$(cat)
