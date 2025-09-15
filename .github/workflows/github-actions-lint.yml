@@ -92,6 +92,6 @@ jobs:
             exit 1
           fi
           tar xzf zizmor.tar.gz
-          ./zizmor version
+          ./zizmor --version
       - name: Run zizmor
-        run: ./zizmor run
+        run: ./zizmor --color=always --persona=auditor .
