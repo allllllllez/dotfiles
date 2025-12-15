@@ -32,18 +32,10 @@
             "type": "command",
             "command": "~/.claude/scripts/claude-quality-gate/quality-gate-pre-commit.sh",
             "timeout": 30
-          }
-        ]
-      }
-    ],
-    "Stop": [
-      {
-        "matcher": "*",
-        "hooks": [
+          },
           {
             "type": "command",
-            "command": "~/.claude/scripts/claude-quality-gate/quality-gate-stop.sh",
-            "timeout": 30
+            "command": "echo \"[$(date)] $USER: $(jq -r '.tool_input.command')\" >> ~/.claude/command_history.log"
           }
         ]
       }
