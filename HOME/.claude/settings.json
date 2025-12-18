@@ -1,4 +1,15 @@
 {
+  "env": {
+    "CLAUDE_CODE_IDE_SKIP_AUTO_INSTALL": "true",
+    "CLAUDE_CODE_IDE_SKIP_VALID_CHECK": "true",
+    "CLAUDE_CODE_ENABLE_TELEMETRY": "false",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "true",
+    "DISABLE_ERROR_REPORTING": "true",
+    "DISABLE_TELEMETRY": "true",
+    "DISABLE_AUTOUPDATER": "true",
+    "DISABLE_MICROCOMPACT": "true",
+    "MAX_THINKING_TOKENS": "31999"
+  },
   "permissions": {
     "deny": [
       "Bash(sudo:*)",
@@ -41,5 +52,8 @@
       }
     ]
   },
-  "alwaysThinkingEnabled": false
+  "alwaysThinkingEnabled": false,
+  "enabledPlugins": {
+    "example-skills@anthropic-agent-skills": true
+  }
 }
