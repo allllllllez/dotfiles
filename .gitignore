@@ -1,0 +1,22 @@
+*.log
+
+# Claude Code: プロジェクトレベルの個人設定を除外
+.claude/
+
+# Claude Code: グローバル設定の一時ファイルを除外
+.mcp.json
+HOME/.claude.json
+HOME/.claude/.credentials.json
+HOME/.claude/debug/
+HOME/.claude/file-history/
+HOME/.claude/**.jsonl
+HOME/.claude/ide/
+HOME/.claude/local/
+HOME/.claude/plugins/
+HOME/.claude/projects/
+HOME/.claude/shell-snapshots/
+HOME/.claude/statsig/
+HOME/.claude/todos/
+HOME/.config/Code/
+HOME/.config/gh/
+HOME/.config/git/
