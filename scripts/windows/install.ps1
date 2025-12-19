@@ -86,10 +86,11 @@ winget install Microsoft.WindowsTerminal
 winget install obsidian
 winget install ollama
 winget install Amazon.AWSCLI
-winget install Amazon.AWSVPNClient
 winget install Google.CloudSDK
 winget install jqlang.jq
 winget install Starship.Starship
+winget install Neovim.Neovim
+winget install GitHub.cli
 
 # nvm-windows (Node.js バージョン管理)
 winget install CoreyButler.NVMforWindows

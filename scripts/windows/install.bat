@@ -1,5 +1,5 @@
 @echo off
-:: 遅延環境変数の展開（!)を使うための設定
+:: ?x??????????W?J?i!)???g?????????
 setlocal enabledelayedexpansion
 
 ::
@@ -7,7 +7,7 @@ setlocal enabledelayedexpansion
 ::
 
 echo Start installation...
-:: 一時的に実行ポリシーを変更
+:: ???I????s?|???V?[???X
 powershell -NoProfile -ExecutionPolicy Unrestricted %~dp0\install.ps1 %~dp0\install.ps1
 echo Finish installation successfully.
 
@@ -16,19 +16,19 @@ echo Finish installation successfully.
 ::
 
 echo Start copy dotfiles...
-:: 設定ファイルのリンク（ハードリンク）を作成
-:: ユーザーホームディレクトリ
+:: ???t?@?C????????N?i?n?[?h?????N?j????
+:: ???[?U?[?z?[???f?B???N?g??
 set HOMEDIR=%HOMEPATH%
 set BAKDIR=%HOMEDIR%\.dotfiles.bak
 set SRCDIR=%~dp0\..\..\HOME
 
-:: バックアップディレクトリ作成
+:: ?o?b?N?A?b?v?f?B???N?g????
 if not exist !BAKDIR! (
     mkdir !BAKDIR!
 )
 
-:: HOMEディレクトリ内のファイルを処理
-:: ファイル
+:: HOME?f?B???N?g??????t?@?C????????
+:: ?t?@?C??
 for %%F in (%SRCDIR%\*) do (
     set FILE=%%~nxF
     if exist %HOMEDIR%\!FILE! (
@@ -39,7 +39,7 @@ for %%F in (%SRCDIR%\*) do (
     mklink "%HOMEDIR%\!FILE!" "%SRCDIR%\!FILE!"
 )
 
-:: ディレクトリ
+:: ?f?B???N?g??
 for /D %%F in (%SRCDIR%\*) do (
     set FILE=%%~nxF
     if exist %HOMEDIR%\!FILE! (
@@ -50,7 +50,15 @@ for /D %%F in (%SRCDIR%\*) do (
     mklink /D "%HOMEDIR%\!FILE!" "%SRCDIR%\!FILE!"
 )
 
+:: nvim の設定ディレクトリ作成
+if not exist %HOMEDIR%\nvim (
+    mklink /D "%LOCALAPPDATA%\nvim" "%SRCDIR%\.config\nvim"
+)
+
 echo Finish copy dotfiles successfully.
+
+:: dotfiles ?z?u??????
+nvim --headless -c "Lazy! sync" -c "qall"
 
 pause > nul
 @REM exit

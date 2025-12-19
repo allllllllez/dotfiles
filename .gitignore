@@ -1,5 +1,8 @@
 *.log
 
+# MAGI System: レビュー結果ディレクトリを除外
+.i9wa4/
+
 # Claude Code: プロジェクトレベルの個人設定を除外
 .claude/
 

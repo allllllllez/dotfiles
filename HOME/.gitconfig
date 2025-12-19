@@ -18,5 +18,11 @@
 [credential "https://git-codecommit.ap-northeast-1.amazonaws.com"]
     provider = generic
 [user]
-    email = you@example.com
-    name = you
+    email = m.kajiya@datumstudio.jp
+    name = m-kajiya-ds
+[credential "https://github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential

@@ -19,8 +19,10 @@ sudo apt install -y \
     unzip \
     curl \
     neovim \
+    tmux \
     python3 python3-venv \
-    npm
+    npm \
+    fzf
 
 ## Nerd-fonts
 git clone https://github.com/ryanoasis/nerd-fonts.git && cd nerd-fonts && ./install.sh
@@ -53,6 +55,9 @@ nvm install --lts
 nvm use --lts
 
 npm install -g @anthropic-ai/claude-code
+
+## vde-layout (requires Node.js 22+)
+npm install -g vde-layout
 
 
 # ==================================
