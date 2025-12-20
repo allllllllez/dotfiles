@@ -21,6 +21,7 @@ sudo apt install -y \
     tmux \
     python3 python3-venv \
     npm \
+    jq \
     fzf
 
 ## Nerd-fonts

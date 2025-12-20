@@ -1,5 +1,5 @@
 -- ==============================================================================
--- MAGI System Plugins
+-- 井戸端会議 Plugins
 -- ==============================================================================
 
 return {
@@ -15,7 +15,7 @@ return {
       vim.g.slime_dont_ask_default = 1
       vim.g.slime_paste_file = vim.fn.tempname()
 
-      -- MAGI System用のカスタムコマンド
+      -- 井戸端会議用のカスタムコマンド
       vim.api.nvim_create_user_command("SendToAllAI", function(opts)
         local content = opts.args
         if content == "" then
