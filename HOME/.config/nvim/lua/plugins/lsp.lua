@@ -170,7 +170,28 @@ return {
     event = "VeryLazy",
     opts = function()
       return {
-        --[[add your custom lualine config here]]
+        options = {
+          theme = "auto"
+        },
+        sections = {
+          lualine_z = {
+            {
+              function()
+                local line = vim.fn.line(".")
+                local col = vim.fn.col(".")
+                return string.format("%d:%02d", line, col)
+              end,
+            },
+            {
+              function()
+                local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+                local char = vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col + 1, col + 1)
+                local code = char ~= "" and string.byte(char) or 0
+                return string.format("  0x%02X", code)
+              end,
+            },
+          },
+        },
       }
     end,
   },
