@@ -1,11 +1,5 @@
 *.log
 
-# 井戸端会議: レビュー結果ディレクトリを除外
-.i9wa4/
-
-# Claude Code: プロジェクトレベルの個人設定を除外
-.claude/
-
 # Claude Code: グローバル設定の一時ファイルを除外
 .mcp.json
 HOME/.claude.json
