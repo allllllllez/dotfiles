@@ -72,6 +72,8 @@ cf. https://zenn.dev/genda_jp/articles/2025-12-04-magi-system-ai-review
 
 ### 1. dotfilesの配置
 
+このリポジトリをもとに環境構築すればOKなのですが、この機能だけを利用する場合について記載します
+
 ```bash
 # このdotfilesリポジトリをクローン
 git clone https://github.com/allllllllez/dotfiles.git ~/dotfiles
@@ -86,12 +88,14 @@ ln -s ~/dotfiles/HOME/.bash_aliases ~/.bash_aliases
 
 ### 2. Neovimプラグインのインストール
 
+このリポジトリをもとに環境構築すればOKなのですが、この機能だけを利用する場合について記載します
+
 ```bash
 # Neovimを起動（初回起動時に自動的にプラグインがインストールされる）
 nvim
 
 # または手動でプラグインをインストール
-nvim --headless "+Lazy! sync" +qa
+nvim --headless "Lazy! sync" +qa
 ```
 
 ### 3. tmux設定の反映
