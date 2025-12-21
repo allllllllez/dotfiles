@@ -52,6 +52,8 @@ set visualbell
 set showmatch
 " ステータスラインを常に表示
 set laststatus=2
+" ステータスラインのフォーマット
+set statusline=%F%m%h%w\ %<[ENC=%{&fenc!=''?&fenc:&enc}]\ [FMT=%{&ff}]\ [TYPE=%Y]\ %=[CODE=0x%02B]\ [POS=%l/%L(%02v)]
 " " コマンドラインの補完
 set wildmode=list:longest
 " 折り返し時に表示行単位での移動できるようにする

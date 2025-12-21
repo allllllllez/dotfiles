@@ -50,7 +50,15 @@ for /D %%F in (%SRCDIR%\*) do (
     mklink /D "%HOMEDIR%\!FILE!" "%SRCDIR%\!FILE!"
 )
 
+:: nvim の設定ディレクトリ作成
+if not exist %HOMEDIR%\nvim (
+    mklink /D "%LOCALAPPDATA%\nvim" "%SRCDIR%\.config\nvim"
+)
+
 echo Finish copy dotfiles successfully.
+
+:: dotfiles 配置後の処理
+nvim --headless -c "Lazy! sync" -c "qall"
 
 pause > nul
 @REM exit

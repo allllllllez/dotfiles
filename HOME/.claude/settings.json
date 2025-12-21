@@ -32,22 +32,18 @@
             "type": "command",
             "command": "~/.claude/scripts/claude-quality-gate/quality-gate-pre-commit.sh",
             "timeout": 30
-          }
-        ]
-      }
-    ],
-    "Stop": [
-      {
-        "matcher": "*",
-        "hooks": [
+          },
           {
             "type": "command",
-            "command": "~/.claude/scripts/claude-quality-gate/quality-gate-stop.sh",
-            "timeout": 30
+            "command": "echo \"[$(date)] $USER: $(jq -r '.tool_input.command')\" >> ~/.claude/command_history.log"
           }
         ]
       }
     ]
+  },
+  "alwaysThinkingEnabled": false,
+  "enabledPlugins": {
+    "example-skills@anthropic-agent-skills": true
   },
   "env": {
     "CLAUDE_CODE_IDE_SKIP_AUTO_INSTALL": "true",
@@ -61,4 +57,3 @@
     "MAX_THINKING_TOKENS": "31999"
   }
 }
-
