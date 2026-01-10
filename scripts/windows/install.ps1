@@ -142,6 +142,7 @@ Write-Host "Downloading JKゴシックMフォント: $jk_font_m_url"
 Invoke-WebRequest -Uri $jk_font_m_url -OutFile $jk_font_m_zip
 
 # Nerd Fonts
+Install-Module -Name Microsoft.PowerShell.PSResourceGet -Force -AllowClobber -Confirm:$false
 Install-PSResource -Name NerdFonts # プロンプトで確認が必要、-Confirm:$false でも回避できないかも
 Import-Module -Name NerdFonts
 
