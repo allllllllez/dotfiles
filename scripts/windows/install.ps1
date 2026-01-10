@@ -147,4 +147,4 @@ Install-PSResource -Name NerdFonts # プロンプトで確認が必要、-Confir
 Import-Module -Name NerdFonts
 
 # インストール確認
-bash -c 'winget.exe list | grep winget'
+winget list | Select-String -SimpleMatch "winget" 
