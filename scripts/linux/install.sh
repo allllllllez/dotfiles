@@ -12,7 +12,7 @@ ROOT_DIR=${SCRIPT_DIR}/../..
 # ==================================
 
 # Neovim 0.11 以上が欲しい
-sudo add-apt-repository ppa:neovim-ppa/unstable
+sudo add-apt-repository -y ppa:neovim-ppa/unstable
 sudo apt update
 sudo apt install -y \
     ninja-build \

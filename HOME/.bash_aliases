@@ -7,6 +7,5 @@ if [[ "$OSTYPE" == msys* || "$OSTYPE" == "cygwin" ]]; then
     alias docker='winpty docker'
 else
     # Linux環境のみ
-    alias claude="/home/you/.claude/local/claude"
     alias tm='tmux attach -t default || tmux new -s default'
 fi
