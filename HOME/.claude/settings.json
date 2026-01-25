@@ -37,6 +37,27 @@
           }
         ]
       }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell.exe -c \"[System.Media.SystemSounds]::Beep.Play()\""
+          }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell.exe -c \"[System.Media.SystemSounds]::Beep.Play()\""
+          }
+        ]
+      }
     ]
   },
   "alwaysThinkingEnabled": false,
