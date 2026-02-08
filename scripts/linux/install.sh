@@ -51,14 +51,15 @@ sudo ./aws/install
     && sudo apt update \
     && sudo apt install gh -y
 
-## nvm
+## nvm + Node.js (vde-layout用)
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
-
-## Claude code
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 nvm install --lts
 nvm use --lts
 
-npm install -g @anthropic-ai/claude-code
+## Claude Code
+curl -fsSL https://claude.ai/install.sh | bash
 
 ## vde-layout (requires Node.js 22+)
 npm install -g vde-layout

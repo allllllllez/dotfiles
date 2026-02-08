@@ -146,7 +146,7 @@
 | vim-tmux-send-to-ai-cli | ✅ | ✅ | ❌ | Neovimプラグイン: Vim→tmux上のAI CLIへ直接送信（tmux必須） |
 | starship | ✅ | ✅ | ✅ | |
 | nvm/Node.js | ✅ | ✅ | ✅ (nvm-windows) | |
-| Claude Code | ✅ | ✅ | ✅ | npm経由 |
+| Claude Code | ✅ | ✅ | ✅ | Linux: curl, Windows: winget |
 | Git | ❌ | ❌ | ✅ (Git for Windows) | |
 | gh (GitHub CLI) | ✅ | ✅ | ✅ | |
 | AWS CLI | ✅ | ✅ | ✅ | |

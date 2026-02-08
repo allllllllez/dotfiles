@@ -165,8 +165,8 @@ jobs:
         uses: actions/create-github-app-token@29824e69f54612133e76f7eaac726eef6c875baf # v2.2.1
         id: app-token
         with:
-          app-id: ${{ vars.GH_APPS_CREATE_PULL_REQEST_BOT_APP_ID }}
-          private-key: ${{ secrets.GH_APPS_CREATE_PULL_REQEST_BOT_PRIVATE_KEY }}
+          app-id: ${{ vars.GH_APPS_CREATE_PULL_REQUEST_BOT_APP_ID }}
+          private-key: ${{ secrets.GH_APPS_CREATE_PULL_REQUEST_BOT_PRIVATE_KEY }}
 
       - name: Create Pull Request
         if: steps.check-binary-version.outputs.result == 'false'
