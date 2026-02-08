@@ -137,10 +137,10 @@ if [[ "$OSTYPE" == msys* || "$OSTYPE" == "cygwin" ]]; then
 
     # npm
     export PATH=${HOME}/AppData/Local/nvm:${PATH}
-else # Linux環境のみ
-    # starship
-    eval "$(starship init bash)"
 
+    # Claude Code for Windows
+    export CLAUDE_CODE_GIT_BASH_PATH=C:\\Git\\bin\\bash.exe
+else # Linux環境のみ
     # ssh-add
     eval `ssh-agent`
     ssh-add /home/you/.ssh/github # 必要に応じてuncomment、パスは自身の環境に合わせて変更

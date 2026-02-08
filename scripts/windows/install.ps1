@@ -105,11 +105,7 @@ winget install Unity.Unity
 winget install EpicGames.EpicGamesLauncher
 
 # Claude code
-# winget install Anthropic.ClaudeCode でインストールできる説があるが、一旦、公式準拠で行く
-nvm on
-nvm install latest
-nvm use latest
-npm install -g @anthropic-ai/claude-code
+winget install Anthropic.ClaudeCode
 
 # ==================================
 # 
