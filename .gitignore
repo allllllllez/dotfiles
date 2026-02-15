@@ -1,4 +1,6 @@
 *.log
+.bashrc
+.gitconfig
 
 # Claude Code: グローバル設定の一時ファイルを除外
 .mcp.json
