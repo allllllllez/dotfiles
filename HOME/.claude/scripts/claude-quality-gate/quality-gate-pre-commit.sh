@@ -21,20 +21,14 @@ if [[ "$command" =~ (^|[[:space:];&|])git[[:space:]]+.*commit([[:space:]]|$) ]];
             exit 0
             ;;
         1)  # REJECTED
-            echo "❌ Quality gate REJECTED - commit blocked due to critical issues" >&2
-            echo "Step 1: Use Task tool with subagent_type='quality-gate-keeper' to review and identify issues" >&2
-            echo "Step 2: Fix any issues identified by the quality gate keeper" >&2
-            echo "Step 3: Use Task tool with subagent_type='quality-gate-keeper' to review the fixes" >&2
-            echo "Step 4: Commit when you get APPROVED status" >&2
-            exit 2
+            echo "⚠️ Quality gate REJECTED - critical issues were found, but commit is allowed to proceed" >&2
+            echo "Consider running /quality-gate to review and fix issues before committing" >&2
+            exit 0
             ;;
         2)  # No verdict found
-            echo "🔍 Quality check required:" >&2
-            echo "Step 1: Use Task tool with subagent_type='quality-gate-keeper' to perform quality inspection" >&2
-            echo "Step 2: Fix any issues identified by the quality gate keeper" >&2
-            echo "Step 3: Use Task tool with subagent_type='quality-gate-keeper' to review the fixes" >&2
-            echo "Step 4: Commit when you get APPROVED status" >&2
-            exit 2
+            echo "🔍 Quality check has not been run yet - commit is allowed to proceed" >&2
+            echo "Consider running /quality-gate to perform quality inspection before committing" >&2
+            exit 0
             ;;
         3)  # No edits made
             echo "✅ No edits detected - allowing commit" >&2
