@@ -1,5 +1,19 @@
 {
+  "env": {
+    "CLAUDE_CODE_IDE_SKIP_AUTO_INSTALL": "true",
+    "CLAUDE_CODE_IDE_SKIP_VALID_CHECK": "true",
+    "CLAUDE_CODE_ENABLE_TELEMETRY": "false",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "true",
+    "DISABLE_ERROR_REPORTING": "true",
+    "DISABLE_TELEMETRY": "true",
+    "DISABLE_AUTOUPDATER": "true",
+    "DISABLE_MICROCOMPACT": "true",
+    "MAX_THINKING_TOKENS": "31999",
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "true"
+  },
+  "enableAllProjectMcpServers": false,
   "permissions": {
+    "disableBypassPermissionsMode": "disable",
     "deny": [
       "Bash(sudo:*)",
       "Bash(rm:*)",
@@ -7,7 +21,9 @@
       "Bash(git add:*)",
       "Bash(git reset:*)",
       "Bash(git rebase:*)",
+      "Bash(pip install:*)",
       "Bash(pip uninstall:*)",
+      "Bash(npm install:*)",
       "Bash(nc:*)",
       "Write(.env*)",
       "Write(**/secrets/**)",
@@ -21,6 +37,7 @@
       "Read(**/*connections.*ml*)"
     ]
   },
+  "model": "opus",
   "hooks": {
     "PreToolUse": [
       {
@@ -60,7 +77,6 @@
       }
     ]
   },
-  "alwaysThinkingEnabled": false,
   "statusLine": {
     "type": "command",
     "command": "~/.claude/scripts/statusline/statusline.sh",
@@ -68,16 +84,5 @@
   },
   "enabledPlugins": {
     "example-skills@anthropic-agent-skills": true
-  },
-  "env": {
-    "CLAUDE_CODE_IDE_SKIP_AUTO_INSTALL": "true",
-    "CLAUDE_CODE_IDE_SKIP_VALID_CHECK": "true",
-    "CLAUDE_CODE_ENABLE_TELEMETRY": "false",
-    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "true",
-    "DISABLE_ERROR_REPORTING": "true",
-    "DISABLE_TELEMETRY": "true",
-    "DISABLE_AUTOUPDATER": "true",
-    "DISABLE_MICROCOMPACT": "true",
-    "MAX_THINKING_TOKENS": "31999"
   }
 }
