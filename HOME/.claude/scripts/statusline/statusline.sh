@@ -33,7 +33,7 @@ fi
 # Get PR info with caching
 CACHE_FILE="$HOME/.claude/pr-cache.json"
 CACHE_TTL=60
-PR_INFO=""
+PR_INFO="N/A"
 
 get_pr_info() {
     if command -v gh &> /dev/null && git rev-parse --git-dir > /dev/null 2>&1; then
@@ -77,9 +77,9 @@ if [ -n "$PR_DATA" ]; then
     esac
 
     if [ -n "$PR_URL" ]; then
-        PR_INFO=" | PR: $PR_URL ($STATUS_ICON)"
+        PR_INFO="$PR_URL ($STATUS_ICON)"
     fi
 fi
 
 # Build status line
-echo "Session: $SESSION_ID | Model: $MODEL | Tokens: $TOKEN_INFO | Branch: $GIT_BRANCH$PR_INFO"
+echo "Tokens: $TOKEN_INFO | Model: $MODEL | Branch: $GIT_BRANCH | Session: $SESSION_ID | PR: $PR_INFO"
