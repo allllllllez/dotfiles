@@ -1,4 +1,6 @@
 *.log
+.bashrc
+.gitconfig
 
 # Claude Code: グローバル設定の一時ファイルを除外
 .mcp.json
@@ -17,3 +19,24 @@ HOME/.claude/todos/
 HOME/.config/Code/
 HOME/.config/gh/
 HOME/.config/git/
+
+# Claude Code: キャッシュ関連
+HOME/.claude/cache/
+HOME/.claude/paste-cache/
+HOME/.claude/plans/
+HOME/.claude/pr-cache.json
+HOME/.claude/pr-cache.json.timestamp
+HOME/.claude/stats-cache.json
+
+# Google Cloud / その他設定
+HOME/.config/gcloud/
+HOME/.config/fish/
+HOME/.config/uv/
+
+# 一時ファイル
+temp/
+test.md
+
+# ルートの .claude（プロジェクト固有設定）
+.claude/
+AGENTS.md

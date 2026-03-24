@@ -58,14 +58,17 @@ winget install googlechrome
 winget install -i vscode # TODO： -i 必要？
 winget install Python.Python
 
+# uv (Python package manager)
+winget install astral-sh.uv
+
 # WSL
 wsl --install
 dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
 wsl.exe --install Ubuntu
 
-# Docker
+# Rancher Desktop
 # WSL backend のため、WSLより後にインストールする
-winget install Docker.DockerDesktop
+winget install SUSE.RancherDesktop
 
 # OBS Studio + virtual cam plugin
 # 起動後に「ツール」>「obs virtual cam」で起動する必要あり
@@ -103,6 +106,12 @@ winget install Unity.Unity
 
 # Epic Games Launcher
 winget install EpicGames.EpicGamesLauncher
+
+# Snowflake CLI
+winget install Snowflake.SnowflakeCLI
+
+# gitleaks (credential leak prevention)
+winget install Gitleaks.Gitleaks
 
 # Claude code
 winget install Anthropic.ClaudeCode

@@ -51,15 +51,32 @@ sudo ./aws/install
     && sudo apt update \
     && sudo apt install gh -y
 
-## nvm + Node.js (vde-layout用)
+## nvm + Node.js
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 nvm install --lts
 nvm use --lts
 
+## uv (Python package manager)
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+## Snowflake CLI
+uv tool install snowflake-cli
+
+## pre-commit
+uv tool install pre-commit
+pre-commit install
+
+## gitleaks (credential leak prevention)
+GITLEAKS_VERSION=$(curl -s https://api.github.com/repos/gitleaks/gitleaks/releases/latest | jq -r '.tag_name' | sed 's/v//')
+curl -sSfL "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz" | sudo tar xz -C /usr/local/bin gitleaks
+
 ## Claude Code
 curl -fsSL https://claude.ai/install.sh | bash
+
+# npx --yes cc-sdd@latest --claude --lang ja 
+npx --yes cc-sdd@latest --claude-agent --lang ja
 
 ## vde-layout (requires Node.js 22+)
 npm install -g vde-layout

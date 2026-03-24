@@ -1,5 +1,37 @@
 {
+  "env": {
+    "CLAUDE_CODE_IDE_SKIP_AUTO_INSTALL": "true",
+    "CLAUDE_CODE_IDE_SKIP_VALID_CHECK": "true",
+    "CLAUDE_CODE_ENABLE_TELEMETRY": "false",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "true",
+    "DISABLE_ERROR_REPORTING": "true",
+    "DISABLE_TELEMETRY": "true",
+    "DISABLE_AUTOUPDATER": "true",
+    "DISABLE_MICROCOMPACT": "true",
+    "MAX_THINKING_TOKENS": "128000",
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "true"
+  },
+  "enableAllProjectMcpServers": false,
   "permissions": {
+    "allow": [
+      "Bash(ls:*)",
+      "Bash(find:*)",
+      "Bash(head:*)",
+      "Bash(tail:*)",
+      "Bash(wc:*)",
+      "Bash(which:*)",
+      "Bash(pwd:*)",
+      "Bash(file:*)",
+      "Bash(stat:*)",
+      "Bash(tree:*)",
+      "Bash(git status:*)",
+      "Bash(git log:*)",
+      "Bash(git diff:*)",
+      "Bash(git branch:*)",
+      "Bash(git show:*)",
+      "Bash(git remote:*)",
+      "WebSearch"
+    ],
     "deny": [
       "Bash(sudo:*)",
       "Bash(rm:*)",
@@ -7,7 +39,9 @@
       "Bash(git add:*)",
       "Bash(git reset:*)",
       "Bash(git rebase:*)",
+      "Bash(pip install:*)",
       "Bash(pip uninstall:*)",
+      "Bash(npm install:*)",
       "Bash(nc:*)",
       "Write(.env*)",
       "Write(**/secrets/**)",
@@ -19,8 +53,12 @@
       "Read(**/*profile.*ml*)",
       "Read(**/*config.*ml*)",
       "Read(**/*connections.*ml*)"
-    ]
+    ],
+    "disableBypassPermissionsMode": "disable"
   },
+  "model": "opus[1m]",
+  "effortLevel": "high",
+  "enableAllProjectMcpServers": false,
   "hooks": {
     "PreToolUse": [
       {
@@ -36,6 +74,15 @@
             "command": "echo \"[$(date)] $USER: $(jq -r '.tool_input.command')\" >> ~/.claude/command_history.log"
           }
         ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/skills/strategic-compact/suggest-compact.sh"
+          }
+        ]
       }
     ],
     "Stop": [
@@ -44,6 +91,10 @@
           {
             "type": "command",
             "command": "powershell.exe -c \"[System.Media.SystemSounds]::Beep.Play()\""
+          },
+          {
+            "type": "command",
+            "command": "~/.claude/skills/continuous-learning/evaluate-session.sh"
           }
         ]
       }
@@ -60,24 +111,13 @@
       }
     ]
   },
-  "alwaysThinkingEnabled": false,
   "statusLine": {
     "type": "command",
     "command": "~/.claude/scripts/statusline/statusline.sh",
     "padding": 0
   },
   "enabledPlugins": {
-    "example-skills@anthropic-agent-skills": true
+    "example-skills@anthropic-agent-skills": true,
+    "feature-dev@claude-plugins-official": true
   },
-  "env": {
-    "CLAUDE_CODE_IDE_SKIP_AUTO_INSTALL": "true",
-    "CLAUDE_CODE_IDE_SKIP_VALID_CHECK": "true",
-    "CLAUDE_CODE_ENABLE_TELEMETRY": "false",
-    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "true",
-    "DISABLE_ERROR_REPORTING": "true",
-    "DISABLE_TELEMETRY": "true",
-    "DISABLE_AUTOUPDATER": "true",
-    "DISABLE_MICROCOMPACT": "true",
-    "MAX_THINKING_TOKENS": "31999"
-  }
 }
