@@ -65,6 +65,7 @@ uv tool install snowflake-cli
 
 ## pre-commit
 uv tool install pre-commit
+pre-commit install
 
 ## gitleaks (credential leak prevention)
 GITLEAKS_VERSION=$(curl -s https://api.github.com/repos/gitleaks/gitleaks/releases/latest | jq -r '.tag_name' | sed 's/v//')
