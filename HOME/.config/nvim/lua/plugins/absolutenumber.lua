@@ -13,3 +13,5 @@ vim.api.nvim_create_autocmd({ "BufEnter", "FocusGained", "InsertLeave", "Cmdline
 		end
 	end,
 })
+
+return {}

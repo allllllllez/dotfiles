@@ -124,7 +124,7 @@ if ! shopt -oq posix; then
   fi
 fi
 
-export PATH="~/bin:$PATH"
+export PATH="~/bin:$HOME/.local/bin:$PATH"
 
 # 
 # いつものやつ ここまで

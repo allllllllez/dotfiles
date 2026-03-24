@@ -57,6 +57,19 @@ export NVM_DIR="$HOME/.nvm"
 nvm install --lts
 nvm use --lts
 
+## uv (Python package manager)
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+## Snowflake CLI
+uv tool install snowflake-cli
+
+## pre-commit
+uv tool install pre-commit
+
+## gitleaks (credential leak prevention)
+GITLEAKS_VERSION=$(curl -s https://api.github.com/repos/gitleaks/gitleaks/releases/latest | jq -r '.tag_name' | sed 's/v//')
+curl -sSfL "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz" | sudo tar xz -C /usr/local/bin gitleaks
+
 ## Claude Code
 curl -fsSL https://claude.ai/install.sh | bash
 

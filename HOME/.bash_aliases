@@ -6,6 +6,7 @@ alias git-switch-main='git-fetch && git branch -D main && git switch -c main --t
 
 # Windows環境でのみ実行
 if [[ "$OSTYPE" == msys* || "$OSTYPE" == "cygwin" ]]; then
+    # Rancher Desktop の docker CLI 互換
     # 「the input device is not a TTY..」対策で winpty をつける
     alias docker='winpty docker'
 else
