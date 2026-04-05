@@ -138,3 +138,6 @@ echo "Finish copy dotfiles successfully."
 
 # Install Neovim plugins
 nvim --headless -c 'Lazy! sync' -c 'qall'
+
+# Manage external repositories (clone/pull + symlink)
+bash "${ROOT_DIR}/scripts/common/manage-repos/manage-repos.sh"
