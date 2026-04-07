@@ -74,21 +74,54 @@ This skill provides proven best practices for creating high-quality draw.io diag
 </mxfile>
 ```
 
-### 5. Common Element Patterns
+### 5. Color and Shape Conventions
+
+**Shape:** Rectangle をデフォルトとする。`rounded=0` を基本に使用。
+
+**Color principle:** 過剰な着色をしない。基本は **黒枠・無色塗り**。
+
+- デフォルトスタイル: `fillColor=none;strokeColor=#333333;`
+- コンテナ（グルーピング枠）: `fillColor=none;strokeColor=#333333;` （破線も可）
+- **例外: クラウドプラットフォーム境界のみ着色OK**
+  - Azure: `fillColor=#dae8fc;strokeColor=#6c8ebf;`
+  - AWS: `fillColor=#FFF8E1;strokeColor=#FFA000;`
+  - Snowflake: `fillColor=#d5e8d4;strokeColor=#82b366;`
+  - GCP: `fillColor=#FCE4EC;strokeColor=#C62828;`
+- 矢印: `strokeColor=#333333;` を基本とし、太さ（strokeWidth）で重要度を表現
+
+### 6. Common Element Patterns
 
 **Rectangle with text:**
 ```xml
 <mxCell id="rect1" value="サービス名"
-  style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Noto Sans JP;fontSize=18;"
+  style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#333333;fontFamily=Noto Sans JP;fontSize=18;"
   vertex="1" parent="1">
   <mxGeometry x="100" y="100" width="200" height="80" as="geometry"/>
+</mxCell>
+```
+
+**Container (grouping boundary):**
+```xml
+<mxCell id="group1" value="VNet"
+  style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#333333;dashed=1;verticalAlign=top;fontFamily=Noto Sans JP;fontSize=18;container=1;collapsible=0;"
+  vertex="1" parent="1">
+  <mxGeometry x="50" y="50" width="600" height="400" as="geometry"/>
+</mxCell>
+```
+
+**Cloud platform boundary (colored exception):**
+```xml
+<mxCell id="azure1" value="Azure"
+  style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;verticalAlign=top;fontFamily=Noto Sans JP;fontSize=20;fontStyle=1;container=1;collapsible=0;strokeWidth=2;"
+  vertex="1" parent="1">
+  <mxGeometry x="10" y="10" width="800" height="600" as="geometry"/>
 </mxCell>
 ```
 
 **Arrow connector:**
 ```xml
 <mxCell id="arrow1"
-  style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;"
+  style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#333333;exitX=1;exitY=0.5;"
   edge="1" parent="1" source="rect1" target="rect2">
   <mxGeometry relative="1" as="geometry"/>
 </mxCell>
@@ -124,6 +157,9 @@ Before finalizing diagrams:
 - [ ] Font size is 18px or larger for readability
 - [ ] Minimum 20px spacing between arrows and labels
 - [ ] No overlapping text elements
+- [ ] Default shapes are Rectangle (`rounded=0`)
+- [ ] Default style is black border, no fill (`fillColor=none;strokeColor=#333333;`)
+- [ ] Color is used ONLY for cloud platform boundaries (Azure, AWS, GCP, Snowflake)
 
 ## References
 
