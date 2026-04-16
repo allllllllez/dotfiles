@@ -151,3 +151,6 @@ EOF
 # Manage external repositories (clone/pull + symlink)
 bash "${ROOT_DIR}/scripts/common/manage-repos/manage-repos.sh"
 
+# Setup daily cron job for git pull
+bash "${ROOT_DIR}/scripts/common/cron/setup-cron.sh"
+
