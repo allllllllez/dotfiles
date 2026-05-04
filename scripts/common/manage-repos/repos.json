@@ -1,0 +1,31 @@
+{
+  "_comment": "外部リポジトリ管理マニフェスト — manage-repos.sh が読み込む",
+  "repos": [
+    {
+      "url": "git@github.com:Snowflake-Labs/blueprint-manager.git",
+      "path": "~/git/refer/blueprint-manager",
+      "branch": "main",
+      "links": [
+        {
+          "src": ".cortex/commands/blueprints",
+          "dest": "~/.claude/commands/Snowflake-Labs/blueprint-manager/blueprints"
+        },
+        {
+          "src": ".cortex/commands/blueprints.md",
+          "dest": "~/.claude/commands/Snowflake-Labs/blueprint-manager/blueprints.md"
+        }
+      ]
+    },
+    {
+      "url": "git@github.com:dbt-labs/dbt-agent-skills.git",
+      "path": "~/git/refer/dbt-agent-skills",
+      "branch": "main",
+      "links": [
+        {
+          "src": ".claude/skills/auditing-skills",
+          "dest": "~/.claude/commands/dbt-labs/dbt-agent-skills/auditing-skills"
+        }
+      ]
+    }
+  ]
+}

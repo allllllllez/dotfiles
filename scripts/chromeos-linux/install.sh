@@ -144,7 +144,13 @@ echo "Finish copy dotfiles successfully."
 nvim --headless -c 'Lazy! sync' -c 'qall'
 
 # HOME/bin and NeoVim PATH
-cat << 'EOF' >> ~/.bashrc 
+cat << 'EOF' >> ~/.bashrc
 export PATH="~/neovim/build/bin/nvim:$PATH"
 EOF
+
+# Manage external repositories (clone/pull + symlink)
+bash "${ROOT_DIR}/scripts/common/manage-repos/manage-repos.sh"
+
+# Setup daily cron job for git pull
+bash "${ROOT_DIR}/scripts/common/cron/setup-cron.sh"
 

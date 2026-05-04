@@ -1,0 +1,12 @@
+[git_status]
+conflicted = "conflict,"
+ahead = "ahead${count},"
+behind = "behind${count},"
+diverged = "ahead${ahead_count}/behind${behind_count},"
+up_to_date = ""
+untracked = "untracked,"
+stashed = "stash,"
+modified = "modified,"
+staged = "staged,"
+renamed = "renamed,"
+deleted = "deleted,"

@@ -152,3 +152,8 @@ Import-Module -Name NerdFonts
 
 # インストール確認
 bash -c 'winget.exe list | grep winget'
+
+# Manage external repositories (clone/pull + symlink) via WSL
+$ScriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Definition
+$RepoRoot = (Resolve-Path "$ScriptRoot\..\..").Path
+bash -c "bash '$(wsl wslpath -a "$RepoRoot")/scripts/common/manage-repos/manage-repos.sh'"

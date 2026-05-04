@@ -110,7 +110,7 @@
 2. Install
 
    ```bash session
-   ./scripts/wsl2/install.sh
+   ./scripts/linux/install.sh
    ```
 
 [^2]: Win・Linux 共通でもいいっちゃいいけど。。。
