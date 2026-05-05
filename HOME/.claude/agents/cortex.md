@@ -1,7 +1,7 @@
 ---
 name: cortex-consultant
 description: Cortex Code CLIを起動してSnowflake・dbt・データエンジニアリングに関するAI問い合わせを行うエージェント。「cortexに聞いて」「cortexに確認して」「cortexで調べて」などのキーワードで起動する。
-tools: Bash, Read, Write
+tools: Bash, Read
 model: sonnet
 color: cyan
 ---

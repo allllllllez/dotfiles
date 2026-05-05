@@ -70,7 +70,7 @@ curl -sSfL "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_V
 
 ## pre-commit
 uv tool install pre-commit
-pre-commit install
+cd "${ROOT_DIR}" && pre-commit install
 
 ## Claude Code
 curl -fsSL https://claude.ai/install.sh | bash
