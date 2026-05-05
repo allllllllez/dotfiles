@@ -2,7 +2,7 @@
   "_comment": "外部リポジトリ管理マニフェスト — manage-repos.sh が読み込む",
   "repos": [
     {
-      "url": "git@github.com:Snowflake-Labs/blueprint-manager.git",
+      "url": "https://github.com/Snowflake-Labs/blueprint-manager.git",
       "path": "~/git/refer/blueprint-manager",
       "branch": "main",
       "links": [
@@ -17,7 +17,7 @@
       ]
     },
     {
-      "url": "git@github.com:dbt-labs/dbt-agent-skills.git",
+      "url": "https://github.com/dbt-labs/dbt-agent-skills.git",
       "path": "~/git/refer/dbt-agent-skills",
       "branch": "main",
       "links": [

@@ -70,6 +70,7 @@ curl -sSfL "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_V
 
 ## pre-commit
 uv tool install pre-commit
+cd "${ROOT_DIR}"
 pre-commit install
 
 ## Claude Code
