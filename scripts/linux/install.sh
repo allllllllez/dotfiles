@@ -75,8 +75,7 @@ cd "${ROOT_DIR}" && pre-commit install
 ## Claude Code
 curl -fsSL https://claude.ai/install.sh | bash
 
-# npx --yes cc-sdd@latest --claude --lang ja
-npx --yes cc-sdd@3.0.2 --claude-agent --lang ja
+npx --yes cc-sdd@3.0.2 --claude-skills --lang ja
 
 ## vde-layout (requires Node.js 22+)
 npm install -g vde-layout
