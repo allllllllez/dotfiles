@@ -5,3 +5,10 @@ updates:
     directory: /
     schedule:
       interval: weekly
+    # サプライチェーン攻撃対策: 公開直後の取り込みを避けるクールダウン期間
+    # cf. https://docs.github.com/en/code-security/dependabot/working-with-dependabot/dependabot-options-reference#cooldown--
+    cooldown:
+      default-days: 7
+      semver-major-days: 14
+      semver-minor-days: 7
+      semver-patch-days: 3

@@ -30,11 +30,24 @@ jobs:
         binary:
           - actionlint
           - ghalint
+          - zizmor
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
+
+      - name: Load cooldown days from dependabot.yml
+        # サプライチェーン攻撃対策のクールダウン値は dependabot.yml を単一情報源とする
+        # （Dependabotサービスは変数展開・外部参照を一切サポートしないため、リテラル値を持つdependabot.ymlを真とし、本workflowが読み取り側になる）
+        id: cooldown
+        run: |
+          days=$(yq '.updates[0].cooldown.default-days' .github/dependabot.yml)
+          if [ -z "${days}" ] || [ "${days}" = "null" ]; then
+            echo "ERROR: cooldown.default-days not found in .github/dependabot.yml" >&2
+            exit 1
+          fi
+          echo "days=${days}" >> "${GITHUB_OUTPUT}"
 
       - name: Get Environment Names
         id: get-env-names
@@ -56,6 +69,14 @@ jobs:
                 echo "arch=GHALINT_ARCH"
                 echo "version=GHALINT_VERSION"
                 echo "checksum=GHALINT_CHECKSUM"
+              } >> "${GITHUB_OUTPUT}"
+              ;;
+            zizmor)
+              {
+                echo "os=ZIZMOR_OS"
+                echo "arch=ZIZMOR_ARCH"
+                echo "version=ZIZMOR_VERSION"
+                echo "checksum=ZIZMOR_CHECKSUM"
               } >> "${GITHUB_OUTPUT}"
               ;;
           esac
@@ -86,6 +107,12 @@ jobs:
               repo=ghalint
               releases_url=https://github.com/suzuki-shunsuke/ghalint/releases
               ;;
+            zizmor)
+              name=zizmor
+              owner=zizmorcore
+              repo=zizmor
+              releases_url=https://github.com/zizmorcore/zizmor/releases
+              ;;
           esac
           {
             echo "name=${name}"
@@ -113,23 +140,56 @@ jobs:
           BINARY_VERSION_ENV_NAME: ${{ steps.get-env-names.outputs.version }}
           BINARY_CHECKSUM: ${{ steps.get-binary-info.outputs.checksum }}
           BINARY_CHECKSUM_ENV_NAME: ${{ steps.get-env-names.outputs.checksum }}
+          COOLDOWN_DAYS: ${{ steps.cooldown.outputs.days }}
         with:
           result-encoding: string
           script: |
+            const COOLDOWN_DAYS = parseInt(process.env.COOLDOWN_DAYS, 10);
+            if (Number.isNaN(COOLDOWN_DAYS)) {
+              core.setFailed('COOLDOWN_DAYS is not a valid number');
+              return 'true';
+            }
             const currentVersion = process.env.BINARY_VERSION;
-            const latestVersion = await github.rest.repos.getLatestRelease({
+            const release = await github.rest.repos.getLatestRelease({
               owner: process.env.BINARY_OWNER,
               repo: process.env.BINARY_REPO
-            }).then(({ data }) => {
-              return data.tag_name.replace(/^v/, '');
             });
+            const latestVersion = release.data.tag_name.replace(/^v/, '');
+            const publishedAt = new Date(release.data.published_at);
+            const ageDays = (Date.now() - publishedAt.getTime()) / (1000 * 60 * 60 * 24);
             console.log('currentVersion:', currentVersion);
             console.log('latestVersion:', latestVersion);
+            console.log('publishedAt:', release.data.published_at);
+            console.log('ageDays:', ageDays.toFixed(2));
             core.setOutput('currentVersion', currentVersion);
             core.setOutput('latestVersion', latestVersion);
-            const result = currentVersion === latestVersion ? 'true' : 'false';
-            if (result === 'false') {
-              const checkSumsTxtUrl = `https://github.com/${process.env.BINARY_OWNER}/${process.env.BINARY_REPO}/releases/download/v${latestVersion}/${process.env.BINARY_NAME}_${latestVersion}_checksums.txt`;
+
+            if (currentVersion === latestVersion) {
+              return 'true';
+            }
+
+            // サプライチェーン攻撃対策: 公開直後のリリースは取り込まない
+            if (ageDays < COOLDOWN_DAYS) {
+              console.log(`Cooldown active: release ${ageDays.toFixed(2)} days old (< ${COOLDOWN_DAYS}). Skip.`);
+              return 'true';
+            }
+
+            const binaryName = process.env.BINARY_NAME;
+            const arch = process.env.BINARY_ARCH;
+            const os = process.env.BINARY_OS;
+
+            if (binaryName === 'zizmor') {
+              // zizmor は checksums.txt を配布しないため、バイナリをダウンロードして SHA-256 を計算する
+              const binaryUrl = `https://github.com/${process.env.BINARY_OWNER}/${process.env.BINARY_REPO}/releases/download/v${latestVersion}/${binaryName}-${arch}-${os}.tar.gz`;
+              console.log('binaryUrl:', binaryUrl);
+              const binaryResponse = await fetch(binaryUrl);
+              const binaryBuffer = await binaryResponse.arrayBuffer();
+              const crypto = require('crypto');
+              const checksum = crypto.createHash('sha256').update(Buffer.from(binaryBuffer)).digest('hex');
+              console.log('checksum:', checksum);
+              core.setOutput('checksum', checksum);
+            } else {
+              const checkSumsTxtUrl = `https://github.com/${process.env.BINARY_OWNER}/${process.env.BINARY_REPO}/releases/download/v${latestVersion}/${binaryName}_${latestVersion}_checksums.txt`;
               console.log('checkSumsTxtUrl:', checkSumsTxtUrl);
               const response = await fetch(checkSumsTxtUrl);
               const text = await response.text();
@@ -138,7 +198,7 @@ jobs:
               console.log('checksum:', checksum);
               core.setOutput('checksum', checksum);
             }
-            return result;
+            return 'false';
       - name: Update env to github_actions_lint.yml
         if: steps.check-binary-version.outputs.result == 'false'
         env:
