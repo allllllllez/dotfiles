@@ -1,0 +1,6 @@
+rules:
+  secrets-outside-env:
+    ignore:
+      # create-github-app-token に private-key を渡す箇所は GitHub App の設計上
+      # dedicated environment への移動が困難なため抑制する
+      - github-actions-lint-update.yml
