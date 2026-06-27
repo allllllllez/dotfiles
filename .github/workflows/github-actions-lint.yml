@@ -16,8 +16,8 @@ on:
       - .github/workflows/*.yml
 
 permissions:
-  contents: read
-  pull-requests: read
+  contents: read # ワークフローファイルのチェックアウトに必要
+  pull-requests: read # actionlint の PR コンテキスト参照に必要
 
 env:
   # NOTE: actionlint をアップデートする場合は、 ACTIONLINT_VERSION, ACTIONLINT_CHECKSUM を更新してください

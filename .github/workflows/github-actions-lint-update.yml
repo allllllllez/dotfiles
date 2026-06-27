@@ -23,8 +23,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
-      contents: write
-      pull-requests: write
+      contents: write # ワークフローファイルのバージョン・チェックサム更新に必要
+      pull-requests: write # バージョン更新 PR の作成に必要
     strategy:
       matrix:
         binary:
@@ -239,14 +239,14 @@ jobs:
         id: app-token
         with:
           app-id: ${{ vars.GH_APPS_CREATE_PULL_REQUEST_BOT_APP_ID }}
-          private-key: ${{ secrets.GH_APPS_CREATE_PULL_REQUEST_BOT_PRIVATE_KEY }}
+          private-key: ${{ secrets.GH_APPS_CREATE_PULL_REQUEST_BOT_PRIVATE_KEY }} # zizmor:ignore[secrets-outside-env]
           permission-contents: write
           permission-pull-requests: write
           permission-workflows: write
 
       - name: Create Pull Request
         if: steps.check-binary-version.outputs.result == 'false'
-        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1 # zizmor:ignore[superfluous-actions]
         id: create-pull-request
         with:
           token: ${{ steps.app-token.outputs.token }}
