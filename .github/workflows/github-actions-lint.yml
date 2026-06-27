@@ -33,6 +33,7 @@ env:
   GHALINT_CHECKSUM: 98ee0e3330de7286f470d1e89c03ff7ce70d7a5998ba0f15969c400447be579c
 
   # NOTE: zizmor をアップデートする場合は、 ZIZMOR_VERSION, ZIZMOR_CHECKSUM を更新してください
+  # NOTE: auto-update ワークフローによる管理対象。マニュアル更新時はチェックサムを手動確認済みであり cooldown 適用外。
   ZIZMOR_OS: unknown-linux-gnu
   ZIZMOR_ARCH: x86_64
   ZIZMOR_VERSION: 1.26.1

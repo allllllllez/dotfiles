@@ -183,6 +183,10 @@ jobs:
               const binaryUrl = `https://github.com/${process.env.BINARY_OWNER}/${process.env.BINARY_REPO}/releases/download/v${latestVersion}/${binaryName}-${arch}-${os}.tar.gz`;
               console.log('binaryUrl:', binaryUrl);
               const binaryResponse = await fetch(binaryUrl);
+              if (!binaryResponse.ok) {
+                core.setFailed(`Failed to fetch zizmor binary: ${binaryResponse.status} ${binaryResponse.statusText}`);
+                return 'true';
+              }
               const binaryBuffer = await binaryResponse.arrayBuffer();
               const crypto = require('crypto');
               const checksum = crypto.createHash('sha256').update(Buffer.from(binaryBuffer)).digest('hex');
@@ -192,9 +196,18 @@ jobs:
               const checkSumsTxtUrl = `https://github.com/${process.env.BINARY_OWNER}/${process.env.BINARY_REPO}/releases/download/v${latestVersion}/${binaryName}_${latestVersion}_checksums.txt`;
               console.log('checkSumsTxtUrl:', checkSumsTxtUrl);
               const response = await fetch(checkSumsTxtUrl);
+              if (!response.ok) {
+                core.setFailed(`Failed to fetch checksums: ${response.status} ${response.statusText}`);
+                return 'true';
+              }
               const text = await response.text();
               console.log('Checksums file content:', text);
-              const checksum = text.split("\n").find((line) => line.includes("linux_amd64")).split(" ")[0];
+              const checksumLine = text.split("\n").find((line) => line.includes("linux_amd64"));
+              if (!checksumLine) {
+                core.setFailed(`linux_amd64 checksum not found in checksums file for ${binaryName} ${latestVersion}`);
+                return 'true';
+              }
+              const checksum = checksumLine.split(" ")[0];
               console.log('checksum:', checksum);
               core.setOutput('checksum', checksum);
             }
