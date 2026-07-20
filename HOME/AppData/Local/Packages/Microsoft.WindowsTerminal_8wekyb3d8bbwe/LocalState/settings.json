@@ -21,12 +21,12 @@
             "keys": "ctrl+c"
         },
         {
-            "id": "Terminal.FindText",
-            "keys": "ctrl+shift+f"
-        },
-        {
             "id": "Terminal.PasteFromClipboard",
             "keys": "ctrl+v"
+        },
+        {
+            "id": "Terminal.FindText",
+            "keys": "ctrl+shift+f"
         },
         {
             "id": "Terminal.DuplicatePaneAuto",
@@ -47,7 +47,7 @@
     {
         "defaults": 
         {
-            "colorScheme": "Campbell",
+            "colorScheme": "One Half Dark",
             "font": 
             {
                 "face": "PlemolJP Console NF"
@@ -56,6 +56,7 @@
         "list": 
         [
             {
+                "colorScheme": "One Half Dark",
                 "commandline": "ubuntu.exe",
                 "cursorShape": "filledBox",
                 "guid": "{438aad1b-cfd7-4984-8056-87c43f4d4cfa}",
