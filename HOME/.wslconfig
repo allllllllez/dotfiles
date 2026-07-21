@@ -1,0 +1,11 @@
+[wsl2]
+# Windows側のメモリ逼迫を防ぐため、WSLのメモリ上限を8GBに制限
+# (32GB RAMマシンで16GB割当は過剰であり、本体の運用に支障をきたしたため。。。)
+memory=8GB
+swap=4GB
+# 某 VPN 接続中にWSL2から外部アクセスするために mirored を指定。Rancher 使用時はコンテナ上のStreamlitにアクセスできないためコメントアウト
+networkingMode=mirrored
+
+# WSL2はデフォルトでページキャッシュを保持し続け、Windowsにメモリを返却しない
+# gradual を設定すると、不要になったキャッシュを段階的にWindowsへ返却する
+autoMemoryReclaim=gradual
