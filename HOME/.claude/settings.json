@@ -43,8 +43,8 @@
       "Bash(pip uninstall:*)",
       "Bash(npm install:*)",
       "Bash(nc:*)",
-      "Write(.env*)",
-      "Write(**/secrets/**)",
+      "Edit(.env*)",
+      "Edit(**/secrets/**)",
       "Read(**/*key*)",
       "Read(.env.*)",
       "Read(id_rsa)",
@@ -56,8 +56,7 @@
     ],
     "disableBypassPermissionsMode": "disable"
   },
-  "model": "opus[1m]",
-  "effortLevel": "xhigh",
+  "model": "sonnet",
   "enableAllProjectMcpServers": false,
   "hooks": {
     "PreToolUse": [
@@ -220,12 +219,11 @@
       "ノレルA CAPELLA LA LA LA LISTEN UP JUST GIVE 'EM AN UPPER CUT CUT CUT",
       "ﾚﾎﾞﾘｭｰｼｮﾝﾚﾎﾞﾘｭｰｼｮﾝﾚﾎﾞﾘｭｰｼｮﾝﾚﾎﾞﾘｭｰｼｮﾝﾚﾎﾞﾘｭｰｼｮﾝﾚﾎﾞﾘｭｰｼｮﾝﾚﾎﾞﾘｭｰｼｮﾝﾚﾎﾞﾘｭｰｼｮﾝﾚﾎﾞﾘｭｰｼｮﾝﾚﾎﾞﾘｭｰｼｮﾝ ＼ｴﾋﾞﾊﾞﾃﾞｨ／",
       "\"Oh Christopher Columbus!\"",
-      "✦💨◇✦◇ - 爆走夢歌 - ◇✦◇💨✦",
       "汚れなき光が闇夜を貫いて この瞬間が永遠だと 今 命が叫んでる",
       "ほら こころの奥にいつも君が映るよ 守るべき真実をただ 抱いてゆくんだ 理由なんてないさ 震える魂よ 嗚呼",
       "繰り返す毎日の荒波に呑まれても まだ夢から覚めぬ 俺達はここにいる",
       "いつもきこえてくる 仲間達の声が 孤独を振り払うように 都会の風の中 ただ行くしかないさ 信じた生き様を 嗚呼"
     ]
   },
-  "language": "Diggy-MO'"
+  "theme": "dark"
 }
