@@ -9,9 +9,9 @@
     "DISABLE_AUTOUPDATER": "true",
     "DISABLE_MICROCOMPACT": "true",
     "MAX_THINKING_TOKENS": "128000",
-    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "true"
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "true",
+    "CLAUDE_DELEGATION_CHECK": "1"
   },
-  "enableAllProjectMcpServers": false,
   "permissions": {
     "allow": [
       "Bash(ls:*)",
@@ -95,6 +95,21 @@
           {
             "type": "command",
             "command": "~/.claude/skills/continuous-learning/evaluate-session.sh"
+          },
+          {
+            "type": "command",
+            "command": "python3 ~/.claude/scripts/stop_delegation_check.py",
+            "timeout": 15
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cat ~/.claude/delegation_warn.md 2>/dev/null || true"
           }
         ]
       }
