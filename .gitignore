@@ -16,6 +16,20 @@ HOME/.claude/projects/
 HOME/.claude/shell-snapshots/
 HOME/.claude/statsig/
 HOME/.claude/todos/
+HOME/.claude/backups/
+HOME/.claude/daemon/
+HOME/.claude/jobs/
+HOME/.claude/sessions/
+HOME/.claude/tasks/
+HOME/.claude/teams/
+HOME/.claude/__pycache__/
+HOME/.claude/**/__pycache__/
+HOME/.claude/.last-cleanup
+HOME/.claude/.last-update-result.json
+HOME/.claude/policy-limits.json
+HOME/.claude/remote-settings.json
+HOME/.claude/delegation_warn.md
+HOME/.claude/command_history.log
 HOME/.config/Code/
 HOME/.config/gh/
 HOME/.config/git/
@@ -38,5 +52,5 @@ temp/
 test.md
 
 # ルートの .claude（プロジェクト固有設定）
-.claude/
+/.claude/
 AGENTS.md
