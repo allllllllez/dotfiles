@@ -36,8 +36,8 @@ env:
   # NOTE: auto-update ワークフローによる管理対象。マニュアル更新時はチェックサムを手動確認済みであり cooldown 適用外。
   ZIZMOR_OS: unknown-linux-gnu
   ZIZMOR_ARCH: x86_64
-  ZIZMOR_VERSION: 1.26.1
-  ZIZMOR_CHECKSUM: 8556289a64e7aaf2400cd516f61a471aa91c5902cc56ad96a82fd12f90c2ef73
+  ZIZMOR_VERSION: 1.29.0
+  ZIZMOR_CHECKSUM: dd96df044a6e8538d5f423790f453bdd03d49e5b2bcc38214acc41a2f1297839
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref || github.run_id }}
