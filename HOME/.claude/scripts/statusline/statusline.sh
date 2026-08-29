@@ -7,6 +7,14 @@ input=$(cat)
 SESSION_ID=$(echo "$input" | jq -r '.session_id // "N/A"')
 MODEL=$(echo "$input" | jq -r '.model.display_name // "Unknown"')
 
+# Current directory ($HOME collapsed to ~)
+CURRENT_DIR=$(echo "$input" | jq -r '.workspace.current_dir // .cwd // ""')
+if [ -n "$CURRENT_DIR" ]; then
+    DIR_INFO="${CURRENT_DIR/#$HOME/\~}"
+else
+    DIR_INFO="N/A"
+fi
+
 # Calculate context window usage
 CONTEXT_SIZE=$(echo "$input" | jq -r '.context_window.context_window_size // 0')
 USAGE=$(echo "$input" | jq '.context_window.current_usage')
@@ -82,4 +90,5 @@ if [ -n "$PR_DATA" ]; then
 fi
 
 # Build status line
-echo "Tokens: $TOKEN_INFO | Model: $MODEL | Branch: $GIT_BRANCH | Session: $SESSION_ID | PR: $PR_INFO"
+echo "Tokens: $TOKEN_INFO | Model: $MODEL | Dir: $DIR_INFO | Branch: $GIT_BRANCH | PR: $PR_INFO"
+echo "Session: $SESSION_ID"
