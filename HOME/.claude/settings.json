@@ -87,7 +87,8 @@
           },
           {
             "type": "command",
-            "command": "~/.claude/skills/continuous-learning/evaluate-session.sh"
+            "command": "python3 ~/.claude/skills/continuous-learning/evaluate-session.py",
+            "timeout": 15
           },
           {
             "type": "command",
