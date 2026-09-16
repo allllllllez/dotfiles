@@ -3,7 +3,7 @@
   "repos": [
     {
       "url": "https://github.com/Snowflake-Labs/blueprint-manager.git",
-      "path": "~/git/refer/blueprint-manager",
+      "path": "~/git/Snowflake-Labs/blueprint-manager",
       "branch": "main",
       "links": [
         {
@@ -18,7 +18,7 @@
     },
     {
       "url": "https://github.com/dbt-labs/dbt-agent-skills.git",
-      "path": "~/git/refer/dbt-agent-skills",
+      "path": "~/git/dbt-labs/dbt-agent-skills",
       "branch": "main",
       "links": [
         {
