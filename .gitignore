@@ -29,6 +29,8 @@ HOME/.claude/.last-update-result.json
 HOME/.claude/policy-limits.json
 HOME/.claude/remote-settings.json
 HOME/.claude/delegation_warn.md
+HOME/.claude/learning_candidates.md
+HOME/.claude/skills/continuous-learning/runs.jsonl
 HOME/.claude/command_history.log
 HOME/.config/Code/
 HOME/.config/gh/
