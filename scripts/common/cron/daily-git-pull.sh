@@ -13,8 +13,6 @@ MAX_LOG_SIZE=10485760  # 10MB
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 DOTFILES_DIR="$(cd "${SCRIPT_DIR}/../../.." && pwd)"
 MANAGE_REPOS="${DOTFILES_DIR}/scripts/common/manage-repos/manage-repos.sh"
-GIT_PULL_ALL="${DOTFILES_DIR}/scripts/common/manage-repos/git_pull_all.sh"
-REFER_DIR="${HOME}/git/refer"
 
 # --- ログ準備 ---
 mkdir -p "${LOG_DIR}"
@@ -33,11 +31,6 @@ echo "========================================"
 # --- repos.json 定義リポジトリの pull ---
 echo "[manage-repos.sh --pull-only]"
 bash "${MANAGE_REPOS}" --pull-only || echo "WARNING: manage-repos.sh failed ($?)"
-
-# --- ~/git/refer/ 配下の全リポジトリを pull ---
-echo ""
-echo "[git_pull_all.sh ${REFER_DIR}]"
-bash "${GIT_PULL_ALL}" "${REFER_DIR}" || echo "WARNING: git_pull_all.sh failed ($?)"
 
 echo ""
 echo "$(date '+%Y-%m-%d %H:%M:%S') - Daily git pull finished"

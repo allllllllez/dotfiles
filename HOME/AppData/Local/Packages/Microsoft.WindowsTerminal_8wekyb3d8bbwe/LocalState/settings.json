@@ -11,6 +11,7 @@
             "id": "User.closeTab.0"
         }
     ],
+    "compatibility.enableUnfocusedAcrylic": false,
     "copyFormatting": "none",
     "copyOnSelect": false,
     "defaultProfile": "{438aad1b-cfd7-4984-8056-87c43f4d4cfa}",
@@ -21,12 +22,12 @@
             "keys": "ctrl+c"
         },
         {
-            "id": "Terminal.PasteFromClipboard",
-            "keys": "ctrl+v"
-        },
-        {
             "id": "Terminal.FindText",
             "keys": "ctrl+shift+f"
+        },
+        {
+            "id": "Terminal.PasteFromClipboard",
+            "keys": "ctrl+v"
         },
         {
             "id": "Terminal.DuplicatePaneAuto",
@@ -97,9 +98,29 @@
                 "hidden": false,
                 "name": "PowerShell",
                 "source": "Windows.Terminal.PowershellCore"
+            },
+            {
+                "guid": "{676ae47e-0d15-5311-9c03-fbc8d2701464}",
+                "hidden": false,
+                "name": "rancher-desktop",
+                "source": "Microsoft.WSL"
+            },
+            {
+                "guid": "{6e479e8b-0c77-50af-9a45-641a4ed43d67}",
+                "hidden": false,
+                "name": "rancher-desktop-data",
+                "source": "Microsoft.WSL"
+            },
+            {
+                "guid": "{4d71e5e9-0ddd-5234-a25a-7f196b477f90}",
+                "hidden": false,
+                "name": "rancher-desktop",
+                "source": "Microsoft.WSL"
             }
         ]
     },
     "schemes": [],
-    "themes": []
+    "theme": "system",
+    "themes": [],
+    "useAcrylicInTabRow": false
 }

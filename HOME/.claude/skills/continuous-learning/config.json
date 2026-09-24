@@ -1,0 +1,21 @@
+{
+  "signals": {
+    "min_human_turns": 4,
+    "min_error_recoveries": 1,
+    "min_corrections": 1,
+    "min_repeated_failures": 2
+  },
+  "learned_skills_path": "~/.claude/skills/learned/",
+  "patterns_to_detect": [
+    "error_resolution",
+    "user_corrections",
+    "workarounds",
+    "debugging_techniques",
+    "project_specific"
+  ],
+  "ignore_patterns": [
+    "simple_typos",
+    "one_time_fixes",
+    "external_api_issues"
+  ]
+}
