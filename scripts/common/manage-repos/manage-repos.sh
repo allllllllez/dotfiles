@@ -124,8 +124,8 @@ for i in $(seq 0 $((REPO_COUNT - 1))); do
 
         # 既にリンク済みで正しい場合はスキップ
         if [[ -L "$DEST" ]]; then
-            CURRENT_TARGET=$(readlink -f "$DEST")
-            EXPECTED_TARGET=$(readlink -f "$SRC")
+            CURRENT_TARGET=$(readlink -f "$DEST" 2>/dev/null || true)
+            EXPECTED_TARGET=$(readlink -f "$SRC" 2>/dev/null || true)
             if [[ "$CURRENT_TARGET" == "$EXPECTED_TARGET" ]]; then
                 echo "    symlink: ${DEST} → 既にリンク済み（スキップ）"
                 continue
