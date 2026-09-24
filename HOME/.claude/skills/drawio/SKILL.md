@@ -74,20 +74,34 @@ This skill provides proven best practices for creating high-quality draw.io diag
 </mxfile>
 ```
 
-### 5. Color and Shape Conventions
+### 5. Color, Icon, and Layout Conventions
 
-**Shape:** Rectangle をデフォルトとする。`rounded=0` を基本に使用。
+背景は白を基本とする。クラウドアーキテクチャ図では、AWS/Azure公式アーキテクチャ図のテイスト（サブネットの色分け・公式アイコン・凡例ボックス）を基本とする。**黒枠・無色塗りのみで済ませない。**
 
-**Color principle:** 過剰な着色をしない。基本は **黒枠・無色塗り**。
+**クラウド境界:** 点線枠（`dashed=1`）。左上にプロバイダ名ラベルを配置する。
+- Azure: `strokeColor=#0078D4;dashed=1;fillColor=none;`
+- AWS: `strokeColor=#FF9900;dashed=1;fillColor=none;`
+- GCP: `strokeColor=#4285F4;dashed=1;fillColor=none;`
+- Snowflake: `strokeColor=#29B5E8;dashed=1;fillColor=none;`
 
-- デフォルトスタイル: `fillColor=none;strokeColor=#333333;`
-- コンテナ（グルーピング枠）: `fillColor=none;strokeColor=#333333;` （破線も可）
-- **例外: クラウドプラットフォーム境界のみ着色OK**
-  - Azure: `fillColor=#dae8fc;strokeColor=#6c8ebf;`
-  - AWS: `fillColor=#FFF8E1;strokeColor=#FFA000;`
-  - Snowflake: `fillColor=#d5e8d4;strokeColor=#82b366;`
-  - GCP: `fillColor=#FCE4EC;strokeColor=#C62828;`
-- 矢印: `strokeColor=#333333;` を基本とし、太さ（strokeWidth）で重要度を表現
+**VPC / VNet:** 紫の塗り。`fillColor=#E1D5E7;strokeColor=#9673A6;`
+
+**Subnet の色分け:**
+- Public subnet: 薄緑 `fillColor=#D5E8D4;strokeColor=#82B366;`
+- Private subnet: 薄い青緑 `fillColor=#D9F2F0;strokeColor=#008080;`
+- Availability Zone などのさらに内側の境界は無色・点線枠（`fillColor=none;strokeColor=#333333;dashed=1;`）でよい。
+
+**サービスアイコン:** 黒枠テキストボックスではなく、公式アイコン風（丸/角丸のカラーアイコン）で各サービスを表現する。
+- 対応する mxgraph stencil の名前に確証がある場合はそれを使う（例: `shape=umlActor;` は標準シェイプで確実に存在する）。
+- クラウド公式アイコン（`mxgraph.aws4.*` / `mxgraph.azure.*` など）の正確な stencil 名は draw.io アプリの Shape Search で確認してから使う。確証のないまま書くと、その要素だけ無地の四角にフォールバックする。
+- 確証が持てないサービスは、カテゴリカラーの円/角丸＋短い記号ラベルで近似する（コンピュート=オレンジ、DB/Storage=緑、ネットワーキング=紫、セキュリティ=赤、分析=青、など）。
+- アイコンの下または右に、サービス名を別要素のテキストラベルとして添える（アイコン内に長文を詰め込まない）。
+
+**凡例ボックス:** 左上または右上に、白背景・黒枠のボックスを置く。矢印の意味（実線=データフロー、破線=イベント）や `{env}` のような変数表記の意味をここに明記する。
+
+**人物アイコン:** 利用者・担当者は標準 UML actor シェイプ（`shape=umlActor;html=1;`）で表現し、役割名・組織名をラベルに添える。
+
+**矢印:** データフローは実線・太め（`strokeWidth=2`〜`3`）、イベント通知は破線・細め（`dashed=1;strokeWidth=1`〜`2`）で描き分け、凡例ボックスで必ず区別を明示する。
 
 ### 6. Common Element Patterns
 
@@ -100,28 +114,69 @@ This skill provides proven best practices for creating high-quality draw.io diag
 </mxCell>
 ```
 
-**Container (grouping boundary):**
+**VPC / VNet container (colored):**
 ```xml
-<mxCell id="group1" value="VNet"
-  style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#333333;dashed=1;verticalAlign=top;fontFamily=Noto Sans JP;fontSize=18;container=1;collapsible=0;"
+<mxCell id="vpc1" value="VPC"
+  style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E1D5E7;strokeColor=#9673A6;verticalAlign=top;fontFamily=Noto Sans JP;fontSize=18;fontStyle=1;container=1;collapsible=0;"
   vertex="1" parent="1">
   <mxGeometry x="50" y="50" width="600" height="400" as="geometry"/>
 </mxCell>
 ```
 
-**Cloud platform boundary (colored exception):**
+**Public / Private subnet (colored):**
+```xml
+<mxCell id="public1" value="Public subnet"
+  style="rounded=0;whiteSpace=wrap;html=1;fillColor=#D5E8D4;strokeColor=#82B366;verticalAlign=top;fontFamily=Noto Sans JP;fontSize=16;container=1;collapsible=0;"
+  vertex="1" parent="vpc1">
+  <mxGeometry x="20" y="40" width="250" height="300" as="geometry"/>
+</mxCell>
+<mxCell id="private1" value="Private subnet"
+  style="rounded=0;whiteSpace=wrap;html=1;fillColor=#D9F2F0;strokeColor=#008080;verticalAlign=top;fontFamily=Noto Sans JP;fontSize=16;container=1;collapsible=0;"
+  vertex="1" parent="vpc1">
+  <mxGeometry x="300" y="40" width="250" height="300" as="geometry"/>
+</mxCell>
+```
+
+**Cloud platform boundary (dashed, colored border):**
 ```xml
 <mxCell id="azure1" value="Azure"
-  style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;verticalAlign=top;fontFamily=Noto Sans JP;fontSize=20;fontStyle=1;container=1;collapsible=0;strokeWidth=2;"
+  style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#0078D4;dashed=1;verticalAlign=top;fontFamily=Noto Sans JP;fontSize=20;fontStyle=1;container=1;collapsible=0;strokeWidth=2;"
   vertex="1" parent="1">
   <mxGeometry x="10" y="10" width="800" height="600" as="geometry"/>
 </mxCell>
 ```
 
-**Arrow connector:**
+**Legend box:**
+```xml
+<mxCell id="legend" value="凡例"
+  style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;verticalAlign=top;align=left;fontFamily=Noto Sans JP;fontSize=14;fontStyle=1;spacingLeft=10;spacingTop=5;"
+  vertex="1" parent="1">
+  <mxGeometry x="20" y="20" width="220" height="90" as="geometry"/>
+</mxCell>
+```
+
+**Person icon (UML actor):**
+```xml
+<mxCell id="person1" value="運用担当者"
+  style="shape=umlActor;whiteSpace=wrap;html=1;strokeColor=#333333;fillColor=none;fontFamily=Noto Sans JP;fontSize=14;verticalLabelPosition=bottom;verticalAlign=top;"
+  vertex="1" parent="1">
+  <mxGeometry x="900" y="30" width="40" height="60" as="geometry"/>
+</mxCell>
+```
+
+**Arrow connector (data flow, solid):**
 ```xml
 <mxCell id="arrow1"
-  style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#333333;exitX=1;exitY=0.5;"
+  style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#333333;strokeWidth=2;exitX=1;exitY=0.5;"
+  edge="1" parent="1" source="rect1" target="rect2">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+```
+
+**Arrow connector (event, dashed):**
+```xml
+<mxCell id="arrow2"
+  style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#333333;dashed=1;exitX=1;exitY=0.5;"
   edge="1" parent="1" source="rect1" target="rect2">
   <mxGeometry relative="1" as="geometry"/>
 </mxCell>
@@ -141,11 +196,12 @@ This skill provides proven best practices for creating high-quality draw.io diag
 When creating draw.io diagrams:
 
 1. **Start with structure:** Define all arrows/edges first
-2. **Add shapes:** Create rectangles, circles, containers
-3. **Add labels:** Place standalone text elements last
-4. **Verify fonts:** Ensure every text element has `fontFamily` attribute
-5. **Check spacing:** Verify 20px+ clearance between overlapping elements
-6. **Size Japanese text:** Allocate 30-40px width per character
+2. **Add shapes:** Create containers (cloud boundary → VPC/VNet → subnet) with their color coding
+3. **Add icons:** Place service icons (official stencil if confirmed, otherwise category-colored approximation)
+4. **Add labels:** Place standalone text elements and the legend box last
+5. **Verify fonts:** Ensure every text element has `fontFamily` attribute
+6. **Check spacing:** Verify 20px+ clearance between overlapping elements
+7. **Size Japanese text:** Allocate 30-40px width per character
 
 ## Quality Checklist
 
@@ -157,9 +213,13 @@ Before finalizing diagrams:
 - [ ] Font size is 18px or larger for readability
 - [ ] Minimum 20px spacing between arrows and labels
 - [ ] No overlapping text elements
-- [ ] Default shapes are Rectangle (`rounded=0`)
-- [ ] Default style is black border, no fill (`fillColor=none;strokeColor=#333333;`)
-- [ ] Color is used ONLY for cloud platform boundaries (Azure, AWS, GCP, Snowflake)
+- [ ] Background is white
+- [ ] Cloud platform boundary uses a dashed border in the provider's brand color (not a solid fill)
+- [ ] VPC/VNet uses purple fill; Public subnet uses green fill; Private subnet uses teal fill
+- [ ] Services are represented by icons (official stencil or category-colored approximation), not plain black-bordered text boxes
+- [ ] A legend box (white background, black border) explains arrow meanings (solid = data flow, dashed = event) and any `{env}`-style placeholders
+- [ ] People are represented with the UML actor shape, not plain text
+- [ ] Data-flow arrows are solid; event arrows are dashed
 
 ## References
 
