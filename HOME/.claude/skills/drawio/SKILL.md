@@ -1,240 +1,247 @@
 ---
 name: drawio
-description: Guidelines and best practices for creating draw.io diagrams with proper formatting, font handling, and layout rules. Use when creating or editing .drawio files, generating architecture diagrams, or working with draw.io XML format. Ensures high-quality PNG output with correct Japanese text rendering and professional appearance.
+description: クラウドの構成図を draw.io の XML（.drawio）で描く。AWS は公式の AWS4 アイコンと AWS 公式の配色で、Azure、GCP、Snowflake は各製品のアイコンで描き、どのサービスがどこにあって何とつながっているかを図と凡例で読めるようにする。日本語のラベルが PNG で崩れないようにフォントを明示する。AWS、Azure、GCP、Snowflake の構成図、アーキテクチャ図、インフラ構成図、ネットワーク構成図、VPC の図を描いてほしいとき、.drawio ファイルを作りたいとき、既存の .drawio を直したいときは必ずこの Skill を使う。Use this whenever the user asks for a cloud architecture diagram, infrastructure diagram, VPC diagram, or a draw.io file, even if they don't say "draw.io". Mermaid、PlantUML、Python の diagrams ライブラリなど、ほかの形式を指定されたときは使わない。Do not use it when the user explicitly asks for Mermaid, PlantUML, or the Python diagrams library.
 ---
 
-# Draw.io Diagram Creation Guidelines
+# クラウドの構成図を draw.io で描く
 
-## Overview
+## この図が目指すもの
 
-This skill provides proven best practices for creating high-quality draw.io diagrams that render correctly in PNG format with proper Japanese text support, correct layering, and professional appearance.
+見た人が、どのサービスがどのネットワークの境界の中にあり、リクエストやデータがどこからどこへ流れるかを、図だけで追えること。
 
-## Core Guidelines
+構成が読めることを優先し、見栄えのための要素は足さない。タイトル、番号付きのバッジは、情報を増やす一方で図を読みにくくする。アイコンを色付きの枠で囲むと、公式アイコンをそのまま置いた図に見えなくなる。線の種類と色の意味は、凡例で示す。
 
-### 1. Font Configuration
+この Skill の決まりは AWS の構成図を基準に書いている。Azure、GCP、Snowflake を描くときは「AWS 以外のクラウド」の節に従う。
 
-**Critical:** Each text element must have explicit `fontFamily` attribute.
+## 進め方
 
-```xml
-<mxCell ... style="text;...fontFamily=Noto Sans JP;..." />
+1. 構成を把握する。登場するサービス、置き場所（VPC の内か外か、どのサブネットか）、つながりを書き出す
+2. 配置を決める。下の「配置」の決まりに沿って、枠の入れ子と各アイコンの座標を先に決める
+3. XML を分けて書く。枠、線、アイコン、凡例の順に、何回かに分けてファイルへ足していく
+4. draw.io の CLI で PNG に書き出し、自分の目で確かめる
+5. 書いたもの、描かなかったもの、迷ったところを伝える
+
+3 で分けるのは、1回の応答で XML を丸ごと書くと出力の上限に当たって落ちることがあるため。線をアイコンより先に書くのは、「XML の決まりごと」の節にあるとおり、線を背面に出すため。
+
+座標を計算するスクリプトなどの作業用のファイルは、`/tmp` ではなく出力先と同じディレクトリに置く。消さずに残し、最後の説明でどのファイルを残したかを伝える。`/tmp` に置くと、同時に動いている別の作業のファイルと名前がぶつかることがある。
+
+座標は自分で決める。draw.io CLI の `--layout`（自動配置）は使わない。枠の入れ子や上下の位置に意味がある図なので、自動配置で動かされると崩れる。
+
+## draw.io の CLI
+
+PNG への書き出しには draw.io desktop の CLI を使う。まず `which drawio` で PATH にあるかを見る。無ければ `references/cli.md` の OS ごとの場所を探す。画面の無い Linux や WSL2 での呼び方もそこにある。
+
+書き出しはこう叩く。`-e` で PNG の中に図の XML を埋め込むので、PNG を draw.io で開けば編集できる。
+
+```sh
+timeout 120 drawio -x -f png -e -b 10 -o diagram.drawio.png diagram.drawio
 ```
 
-**Why:** The `defaultFontFamily` in `<mxGraphModel>` does NOT affect PNG export. Only element-level `fontFamily` attributes are respected during image rendering.
+書き出しは止まることがあるので `timeout` を付ける。止まったら、プロセスを止める前に `references/cli.md` の「書き出しが止まったとき」を読む。
 
-**Recommended fonts:**
-- Japanese text: `Noto Sans JP` or `Hiragino Sans`
-- English text: `Arial`, `Helvetica`, or `Roboto`
+書き出す前に `python3 -c "import sys, xml.dom.minidom; xml.dom.minidom.parse(sys.argv[1])" diagram.drawio` で XML が壊れていないかを確かめる。壊れた XML でも CLI はエラーを出さず、何も描かれていない小さな PNG を作るので、PNG ができたことは成功の証拠にならない。CLI が `sandbox_extension_issue_file failed` のような警告を出しても、図が描かれていれば問題ない。書き出した画像で、線がラベルの文字に重なっていないか、アイコンが枠からはみ出していないか、アイコンの絵が出ているか、日本語が化けていないかを見る。直したら書き出し直す。
 
-### 2. Arrow and Connector Placement
+CLI が見つからなければ書き出しは飛ばす。そのときは上の検査で XML が壊れていないことだけ確かめ、目で確かめていないことを最後に伝える。
 
-**Rule:** Arrows must be written first in XML to render at the back layer.
+## 依頼に無いもの
 
-**Problem:** If arrows are defined after labels/shapes, they will overlap text and make diagrams unreadable.
+依頼どおりに動かすと必ず要るものは、依頼に書かれていなくても描く。NAT Gateway や外向きの ALB を置く VPC の Internet Gateway が代表で、描かないと、動かない構成の図になる。足したものは最後の説明で伝える。
 
-**Solution:**
-```xml
-<root>
-  <mxCell id="0" />
-  <mxCell id="1" parent="0" />
-  <!-- ↓ Arrows FIRST -->
-  <mxCell id="arrow1" edge="1" parent="1" ... />
-  <mxCell id="arrow2" edge="1" parent="1" ... />
-  <!-- ↓ Shapes and labels AFTER -->
-  <mxCell id="shape1" vertex="1" parent="1" ... />
-  <mxCell id="label1" vertex="1" parent="1" ... />
-</root>
+要るかどうかが構成の選び方で変わるもの（VPC エンドポイント、踏み台のサーバーなど）は足さない。描いていないことを最後の説明で伝える。
+
+## 配置
+
+利用者は図の上端に置く。リクエストが上から下へ流れる向きにそろえると、入れ子の深さと縦の位置が対応して読みやすい。
+
+枠は外から AWS Cloud、リージョン、VPC、アベイラビリティゾーン、サブネットの順に入れ子にする。
+
+VPC の外で動くものは、グローバルなサービスかリージョンのサービスかで置き場所を分ける。CloudFront、Route 53、CloudFront に付ける WAF、Lambda@Edge、IAM のようなグローバルなサービスは、AWS Cloud の枠の中、リージョンの枠の外に置く。S3、CloudWatch、Cognito、Lambda、DynamoDB、ECR のようなリージョンのサービスは、リージョンの枠の中、VPC の枠の外に置く。リージョンの枠の外に S3 を置くと、どのリージョンのバケットか読めなくなる。どちらか迷うサービスは、作るときにリージョンを選ぶかどうかで決める。
+
+アベイラビリティゾーンは横に並べ、各ゾーンの中はパブリックサブネットを上、プライベートサブネットを下に置く。インターネットに近いものほど上に来るので、リクエストの流れと向きがそろう。
+
+各ゾーンでは、リクエストの本流になるアイコン（ECS や EC2、データベースなど）を縦一列にそろえ、その列をサブネットの横幅の中央に置く。アイコンの x 座標は、サブネットの幅の半分からアイコンの幅の半分を引いた値にする。ALB と NLB はこの列に入れず、下の「よく出るサービスの描き方」のとおり AZ の境目に1つ置く。NAT Gateway のように本流から外れるものは、パブリックサブネットの中で ALB と反対側（AZ の外側寄り）に置く。本流を片側に寄せると、反対側が何も無い区画として残り、どれが主役か分かりにくくなる。
+
+アベイラビリティゾーンは `ap-northeast-1a` のように正式名称で書く。「AZ A」「ゾーン1」のような略記にすると、どのリージョンの構成かが図から読めなくなる。リージョンの指定がなければ、会話の言語から妥当なものを選ぶ。日本語なら東京（`ap-northeast-1`）が自然で、枠の名前に「東京リージョン」のように地名を添えてよい。指定が無くて選んだときは、どのリージョンにしたかを最後に伝える。
+
+アイコンは 60x60 にする。間隔はラベルと線のラベルが収まる最小限にとどめ、広げすぎない。図が広がると、記事や画面に載せたとき全体が縮み、アイコンも文字も小さく見える。目安は、同じ行に並ぶアイコンの中心どうしが横 140 前後、同じ列が縦 160 前後。あいだに線のラベルが入るときだけ縦 210 程度まで広げる。ラベルの付いた横向きの線でつなぐアイコンどうしは、ラベルの幅に左右 20 ずつ足した分だけあいだを空ける。`fontSize=12` の日本語なら1文字およそ 12 で、「ログ・メトリクス」なら中心どうしを 200 前後にする。枠の内側の余白は 20 から 30 にする。
+
+VPC の外に置くリージョンのサービス（S3、CloudWatch、Cognito など）は、VPC の右に縦一列に並べる。それぞれの高さは、つながる相手の高さに合わせる。S3 なら、VPC の中から読み書きするサービス（ECS など）があればその高さ、CloudFront から配信するだけならリージョンの枠の上端近くにする。CloudFront はリージョンの枠の外にあるので、同じ高さには置けない。CloudWatch はログを送るサービスの高さにする。置く側をそろえると、回ごとに位置が変わらない。VPC から離しすぎず、VPC の枠との間は 60 から 80 にする。VPC の右の1列に並べると VPC の高さを超えるときは、その右に2列目を足す。2列目には、VPC の中とのつながりが無いもの（CloudFront からだけ使う S3 など）を置く。VPC の中とつながるものを1列目に残せば、線が短いまま保てる。VPC の無い構成では、本流の列の右に並べる。書き出した PNG で、枠の中やサービスのあいだに何も無い区画が目立てば、座標を詰めて書き出し直す。
+
+凡例は AWS Cloud の枠の外、右上に置く。上端の利用者と重ならず、枠の中の座標の決まりにも影響しない。
+
+## アイコン
+
+AWS 公式の AWS4 アイコンを使う。
+
+アイコンはサービス単位にそろえる（`shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.<名前>`）。ALB と NLB も Elastic Load Balancing のサービスアイコンで描き、種類はラベル（「Application Load Balancer」「Network Load Balancer」）で書く。ECS のタスク、S3 のバケット、Lambda の関数のようなリソースアイコンも使わず、そのサービスのアイコンにする。サービスごとに粒度を変えると、同じ依頼でも ALB を四角で描く回と丸で描く回に割れ、同じものが別の種類に見える。サービス単位にそろえるのが一番単純で、回ごとに割れにくい。
+
+リソースアイコン（`shape=mxgraph.aws4.<名前>`）は、NAT Gateway、Internet Gateway、VPC エンドポイント、Site-to-Site VPN の接続、カスタマーゲートウェイ、Transit Gateway のアタッチメントのように、独立したサービスアイコンを持たない部品にだけ使う。
+
+細かすぎるアイコンは使わない。EC2 のインスタンスの種類別（`c5_instance` など）や、DB のエンジン別（`aurora_mysql_instance` など）のアイコンは、違いが絵ではほとんど伝わらない。違いはラベルに書く。
+
+NAT Gateway と Internet Gateway は、専用のリソースアイコン（`nat_gateway`、`internet_gateway`）で描く。サービス単位にそろえようとして VPC のアイコンに丸めると、何の機器か分からなくなる。Transit Gateway は本体のリソースアイコンが無いので、サービスアイコン（`transit_gateway`）で描く。
+
+利用者、インターネット、社内データセンター、カスタマーゲートウェイ、モバイル端末、IoT 機器のような AWS の外のものも、汎用のアイコンで描く。文字だけの箱にしない。
+
+使う名前は `references/styles.md` の表から選ぶ。表に無いものは draw.io の名前を推測することになるが、draw.io の名前は略称が多く（EKS は `eks`）、サービス名をそのまま小文字にしても当たらないことがある。名前が違うとアイコンの絵が出ず、色の四角だけになるので、書き出した PNG で必ず確かめる。CLI が無くて書き出せないときは確かめようがないので、表に無いサービスに推測した名前を使ったら、そのことを最後に伝える。
+
+名前に確証が持てず、PNG でも絵が出なかったサービスは、近似で描いてよい。近似は、`references/styles.md` のカテゴリの色で塗った 60x60 の角丸に、短い記号（「EKS」など）を白字で載せ、サービス名は通常のアイコンと同じくラベルとして下に置く。近似したサービスは最後に伝える。
+
+アイコンをそのまま置く。色付きの枠で囲んだり、枠に「Compute」「データベース」のような役割名を載せたりしない。
+
+枠、アイコン、線のスタイル文字列とカテゴリの色は `references/styles.md` にある。
+
+## AWS 以外のクラウド
+
+Azure、GCP、Snowflake のサービスは、draw.io に内蔵されている各製品のアイコンで描く。名前の確かめ方と、確証が持てないときの近似は、AWS のアイコンと同じにする。
+
+配置、ラベル、線、凡例、フォント、XML の決まりは、AWS の図と同じものを使う。
+
+## ラベル
+
+ラベルは常にアイコンの下に置く。スタイルの `verticalLabelPosition=bottom` を書き換えず、線を避けるためにラベルを上や横へ動かさない。線がラベルにかかりそうなときは、ラベルではなく線のほうを「線」の節のやり方で直す。サービス名は英語の正式名称のまま（`Amazon CloudFront`、`Application Load Balancer`）にし、それ以外は会話の言語に合わせる。
+
+枠の名前も同じにする。「AWS Cloud」「VPC」はそのまま書き、リージョン、アベイラビリティゾーン、サブネットは会話の言語で書く。日本語なら「東京リージョン（ap-northeast-1）」「パブリックサブネット」「プライベートサブネット」。枠だけ英語にすると、1枚の図の中で言語が混ざる。最後に伝える説明も会話の言語で書く。
+
+要素の理解に要る短い補足は、ラベルの2行目に添えてよい。「Writer」「Reader」、「us-east-1 で発行」のように、図だけでは分からない役割や制約か、依頼に書かれた区別（「内部向け」など）を書く。図から読めることは書かない。CloudFront の後ろにある ALB に「インターネット向け」と添えても、何も足さない。長い説明文にはしない。
+
+線にもラベルを付ける。「HTTPS」「動的リクエスト」「静的ファイル」「読み書き」「レプリケーション」「ログ・メトリクス」のように、何が流れるかを書く。線のラベルがないと、どの線が何の通信か読めない。ラベルは線の `value` に書き、線とは別の文字として置かない。別に置くと、線を動かしたときにラベルだけ取り残される。
+
+文字の背景は透明にする。線のラベルは何も書かないと白い箱の上に出て、色の付いた枠の上で浮き、下の枠線も隠す。透明にしただけだと線が文字の真ん中を横切るので、`references/styles.md` の線のスタイルにある `labelBackgroundColor=none;verticalAlign=bottom;align=left;spacingLeft=6` をそのまま使う。縦向きの線では、文字が線の右に出る。横向きの線（始点と終点がほぼ同じ高さにある線）は、`align=left;spacingLeft=6` を `align=center` に置き換え、文字を線の上の真ん中に出す。左寄せのままだと、文字が線の中点から右へ伸びて、右隣のアイコンに乗る。アイコンや枠のラベルにも背景色を付けない。
+
+## フォント
+
+文字を持つセルには、すべてスタイルに `fontFamily` を書く。アイコン、枠、線、凡例のどれも対象にする。`mxGraphModel` の `defaultFontFamily` は PNG の書き出しに効かず、セルごとの `fontFamily` だけが使われる。
+
+日本語を含む図は `fontFamily=Noto Sans JP,Noto Sans CJK JP,sans-serif` にする。環境によって入っているフォントの名前が違い、`Noto Sans JP` だけを書くと、その名前が無い環境では英字がセリフ体に落ちる。英語だけの図は `fontFamily=Arial,sans-serif` でよい。`references/styles.md` のスタイル文字列には `fontFamily` が入っていないので、使うときに足す。
+
+## 線
+
+線は `edgeStyle=orthogonalEdgeStyle` で直角に曲げる。
+
+曲がり角は丸めない。線のスタイルには必ず `rounded=0` を書く。draw.io の一般的な例は直角の線に `rounded=1` を勧めているが、構成図では角が丸いと線の向きが変わる位置がぼやけ、手描き風の柔らかい見た目になる。
+
+線はアイコンの辺の中央から出し、辺の中央へ入れる。`exitX`、`exitY`、`entryX`、`entryY` で接続点を指定する。角や辺の端から出ると、どのアイコンにつながっているか追いにくい。
+
+アイコンの下の辺はラベルに隠れているので、下の辺の中央から出す線と、下の辺の中央へ入れる線は、ラベルの下から出し、ラベルの下で止める。`exitY=1` のまま `exitDy` で接続点を下へずらし、`exitPerimeter=0` を足す。入れる側は `entryDy` と `entryPerimeter=0`。ずらす量はラベルが1行なら 24、2行なら 38、3行なら 52。`exitPerimeter=0` や `entryPerimeter=0` を書かないと接続点がずれず、線がラベルを突き抜けてアイコンの下の辺まで届く。
+
+```text
+exitX=0.5;exitY=1;exitDy=38;exitPerimeter=0
+entryX=0.5;entryY=1;entryDy=24;entryPerimeter=0
 ```
 
-**Spacing:** Maintain minimum 20px clearance between arrows and labels to prevent visual overlap.
+アイコンやラベルの文字の上に線を通さない。線どうしを同じ経路で並行させて重ねない。重なると1本に見えて、何本つながっているか分からなくなる。線どうしの交差はかまわない。交差を無理に避けると遠回りの経路になり、かえって読みにくい。
 
-### 3. Text Size and Spacing
+同じ役割のアイコンが複数ある構成（各 AZ の ECS から Aurora の Writer と Reader へ、など）では、つながる組み合わせをすべて線で描く。AZ をまたぐ線が交差してもかまわない。最後の説明で「同じ AZ の中の線だけにまとめ、ラベルに『両 AZ から』と添える形にもできる」と伝え、見やすさを優先したい人が選べるようにする。
 
-**Font size:** Use 1.5x standard size (18px recommended) for better readability.
+線が多く集まるアイコンでは、ここまでの決まりを全部は守れないことがある。そのときは次の順に優先する。
 
-**Japanese text width estimation:**
-- Allocate 30-40px width per character
-- Example: 5-character label → minimum 150-200px width
+1. 省かない。依頼にあるつながりは描く。まとめて1本にしたときは、線のラベルでそう断る
+2. 線どうしを重ねない
+3. 辺の中央から出す。1つの辺に2本以上つなぐときは、次の位置に振り分ける。2本なら 0.25 と 0.75、3本なら 0.25、0.5、0.75。中央の 0.5 を残してもう片方だけずらすと、どちらの線が主か分かりにくい
 
-**English text:** Standard character width rules apply (~8-12px per character depending on font).
+本流と補助の流れで線を描き分ける。リクエストの本流は実線、ログ、メトリクス、レプリケーション、関連付けは破線にし、色も変える。個々の線の中身はラベルで伝え、実線と破線、線の色が何を表すかは凡例で伝える。
 
-### 4. XML Structure Best Practices
+矢印の向きは、呼び出しやデータが流れる向きにする。CloudFront が呼び出す Lambda@Edge は、CloudFront から Lambda@Edge へ向ける。WAF や ACM のように、流れが無く設定として付けるだけのものは、付ける側から付けられる側（CloudFront）へ向ける。
 
-**Standard draw.io structure:**
+## 凡例
+
+凡例は必ず置く。図に使った線の種類ごとに、短い線の見本と意味（「実線：リクエストの本流」「破線：ログ、メトリクス、レプリケーション、関連付け」など）を1行ずつ並べる。図で使っていない種類は載せない。近似で描いたアイコンや、`{env}` のような変数の表記を使ったときは、その意味も凡例に書く。
+
+凡例の枠は白い背景と黒い枠線にし、左上に「凡例」と書く。見本の線は凡例の枠を親にした長さ 50 の横線（`source` と `target` を持たず、`mxGeometry` に `sourcePoint` と `targetPoint` を書いた線）にし、図の線と同じスタイルを使う。見本の線の `value` は空にし、意味は線の右に置いたテキストのセルに書く。線の `value` に書くと、文字が線と矢印の先に重なる。「線のラベルは `value` に書く」という決まりは図の線のためのもので、凡例の見本の線には当てはめない。行の間隔は 30 にする。
+
 ```xml
-<mxfile host="app.diagrams.net">
-  <diagram name="Page-1">
-    <mxGraphModel dx="1422" dy="794" grid="1" ...>
-      <root>
-        <mxCell id="0" />
-        <mxCell id="1" parent="0" />
-        <!-- Elements here -->
-      </root>
-    </mxGraphModel>
-  </diagram>
-</mxfile>
-```
-
-### 5. Color, Icon, and Layout Conventions
-
-背景は白を基本とする。クラウドアーキテクチャ図では、AWS/Azure公式アーキテクチャ図のテイスト（サブネットの色分け・公式アイコン・凡例ボックス）を基本とする。**黒枠・無色塗りのみで済ませない。**
-
-**クラウド境界:** 点線枠（`dashed=1`）。左上にプロバイダ名ラベルを配置する。
-- Azure: `strokeColor=#0078D4;dashed=1;fillColor=none;`
-- AWS: `strokeColor=#FF9900;dashed=1;fillColor=none;`
-- GCP: `strokeColor=#4285F4;dashed=1;fillColor=none;`
-- Snowflake: `strokeColor=#29B5E8;dashed=1;fillColor=none;`
-
-**VPC / VNet:** 紫の塗り。`fillColor=#E1D5E7;strokeColor=#9673A6;`
-
-**Subnet の色分け:**
-- Public subnet: 薄緑 `fillColor=#D5E8D4;strokeColor=#82B366;`
-- Private subnet: 薄い青緑 `fillColor=#D9F2F0;strokeColor=#008080;`
-- Availability Zone などのさらに内側の境界は無色・点線枠（`fillColor=none;strokeColor=#333333;dashed=1;`）でよい。
-
-**サービスアイコン:** 黒枠テキストボックスではなく、公式アイコン風（丸/角丸のカラーアイコン）で各サービスを表現する。
-- 対応する mxgraph stencil の名前に確証がある場合はそれを使う（例: `shape=umlActor;` は標準シェイプで確実に存在する）。
-- クラウド公式アイコン（`mxgraph.aws4.*` / `mxgraph.azure.*` など）の正確な stencil 名は draw.io アプリの Shape Search で確認してから使う。確証のないまま書くと、その要素だけ無地の四角にフォールバックする。
-- 確証が持てないサービスは、カテゴリカラーの円/角丸＋短い記号ラベルで近似する（コンピュート=オレンジ、DB/Storage=緑、ネットワーキング=紫、セキュリティ=赤、分析=青、など）。
-- アイコンの下または右に、サービス名を別要素のテキストラベルとして添える（アイコン内に長文を詰め込まない）。
-
-**凡例ボックス:** 左上または右上に、白背景・黒枠のボックスを置く。矢印の意味（実線=データフロー、破線=イベント）や `{env}` のような変数表記の意味をここに明記する。
-
-**人物アイコン:** 利用者・担当者は標準 UML actor シェイプ（`shape=umlActor;html=1;`）で表現し、役割名・組織名をラベルに添える。
-
-**矢印:** データフローは実線・太め（`strokeWidth=2`〜`3`）、イベント通知は破線・細め（`dashed=1;strokeWidth=1`〜`2`）で描き分け、凡例ボックスで必ず区別を明示する。
-
-### 6. Common Element Patterns
-
-**Rectangle with text:**
-```xml
-<mxCell id="rect1" value="サービス名"
-  style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#333333;fontFamily=Noto Sans JP;fontSize=18;"
-  vertex="1" parent="1">
-  <mxGeometry x="100" y="100" width="200" height="80" as="geometry"/>
+<mxCell id="legend" value="凡例" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;verticalAlign=top;align=left;spacingLeft=10;spacingTop=4;fontSize=12;fontStyle=1;fontFamily=Noto Sans JP,Noto Sans CJK JP,sans-serif;container=1;collapsible=0;" vertex="1" parent="1">
+  <mxGeometry x="1000" y="0" width="240" height="90" as="geometry" />
+</mxCell>
+<mxCell id="legend-solid" value="" style="(図の本流の線と同じスタイル)" edge="1" parent="legend">
+  <mxGeometry relative="1" as="geometry">
+    <mxPoint x="10" y="40" as="sourcePoint" />
+    <mxPoint x="60" y="40" as="targetPoint" />
+  </mxGeometry>
+</mxCell>
+<mxCell id="legend-solid-text" value="リクエストの本流" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=12;fontFamily=Noto Sans JP,Noto Sans CJK JP,sans-serif;" vertex="1" parent="legend">
+  <mxGeometry x="70" y="30" width="160" height="20" as="geometry" />
 </mxCell>
 ```
 
-**VPC / VNet container (colored):**
+## 図の外に置かないもの
+
+タイトル、サブタイトル、番号付きのバッジ、図の横に並べる説明パネルは置かない。図の情報は、枠、アイコン、ラベル、線とそのラベル、凡例で伝える。
+
+## よく出るサービスの描き方
+
+AWS WAF は、利用者と CloudFront の間の経路に挟まない。CloudFront の横に置き、「Web ACL を適用」のような破線で CloudFront に関連付ける。WAF は CloudFront に付ける Web ACL で、トラフィックが通過する別の機器ではない。
+
+AWS Certificate Manager は CloudFront の横に置き、破線で関連付ける。CloudFront に付ける証明書は us-east-1 で発行する必要があるので、図のリージョンの枠の外に置き、ラベルにそう添える。
+
+ALB と NLB は1つだけ描く。複数の AZ のサブネットにまたがる1つのリソースなので、AZ ごとに描くと2つあるように読める。AWS の公式の図や記事でも、ロードバランサーは1つ、その先のターゲットは AZ ごとに描くのが普通。
+
+AZ が2つなら、ALB を左右の AZ の境目、パブリックサブネットの高さに置く。アイコンの中心の x 座標を2つの AZ の境目に合わせ、両方のパブリックサブネットの枠に少しかかるようにする。こうすると、ALB がパブリックサブネットに置かれていることも図から読める。ALB の親（`parent`）はサブネットではなく VPC にし、XML ではサブネットと AZ の枠より後に書いて前面に出す。ALB から各 AZ のターゲット（ECS など）へ線を引く。下の辺から2本出すので、辺の 0.25 と 0.75 から、ラベルの下までずらして出す。Internet Gateway を描くときは、ALB と同じ x 座標にそろえて真上に置く。
+
+構成の定義で ALB や NLB が1つのサブネットにしか置かれていないときは、AZ の境目に置かず、そのサブネットの中に置く。境目に置くと、置かれていない AZ にもあるように読める。
+
+MWAA や VPC の中の Lambda のように、複数のサブネットにまたがって1つとして動くサービスは、ALB と同じく AZ の境目に1つ置き、親を VPC にする。Aurora の Writer と Reader のように AZ ごとに実体があるものは、AZ ごとに描く。
+
+AZ が3つ以上なら、境目が1つに決まらないので、ALB を AZ の枠の上の段（VPC の中）に1つ置き、各 AZ のターゲットへ線を引く。このときは「ALB と反対側」が決まらないので、NAT Gateway はどの AZ でも本流の列の右に置く。
+
+CloudWatch には、ログやメトリクスを送るサービスから線を引く。ログやメトリクスは補助の流れなので、「線」の節の「つながりをすべて描く」の例外として、代表の1本にまとめてよい。まとめたときは、線のラベルに「ALB / ECS / Aurora」のように送り元を書くか、「両 AZ から同様」と断る。黙って省かない。
+
+ECS のサービスを Fargate で動かす構成は、AWS Fargate のアイコン（`fargate`）1つで描き、ラベルを「Amazon ECS（Fargate）」のようにする。ECS のアイコンは置かない。両方を並べると各サブネットにアイコンが2つずつ並び、図が横に広がるわりに、読み手に伝わることは増えない。
+
+Aurora は Writer と Reader をそれぞれのアベイラビリティゾーンに置き、Writer から Reader へ「レプリケーション」の破線を引く。
+
+## XML の決まりごと
+
+`.drawio` は mxGraphModel の XML そのもの。圧縮や base64 にしない。
+
 ```xml
-<mxCell id="vpc1" value="VPC"
-  style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E1D5E7;strokeColor=#9673A6;verticalAlign=top;fontFamily=Noto Sans JP;fontSize=18;fontStyle=1;container=1;collapsible=0;"
-  vertex="1" parent="1">
-  <mxGeometry x="50" y="50" width="600" height="400" as="geometry"/>
+<mxGraphModel adaptiveColors="auto">
+  <root>
+    <mxCell id="0" />
+    <mxCell id="1" parent="0" />
+  </root>
+</mxGraphModel>
+```
+
+`id="0"` と `id="1"` は必ず置く。ほかの要素は `id="1"` か、入れ子の枠を親にする。子の座標は親の左上からの相対座標になる。`adaptiveColors="auto"` はダークモードで色を自動で反転させるためのもので、`background` は付けない。
+
+セルの id は `vpc`、`alb`、`ecs-1a`、`edge-ecs-1a-to-writer` のように中身が分かる名前にし、重複させない。線の `source` と `target` は、実在するセルの id を指す。
+
+draw.io は、同じ親を持つセルを XML に書いた順に重ね、後に書いたものほど前面に出す。線のセルは、同じ親を持つアイコンより前に書く。後に書くと、線がアイコンやラベルの文字の上に描かれる。枠は子を持つので、その枠を親にする線より前に書く。
+
+線のセルは自己終了タグにせず、必ず `<mxGeometry relative="1" as="geometry" />` を子に持たせる。無いと線が描かれない。
+
+```xml
+<mxCell id="edge-alb-to-ecs-1a" value="動的リクエスト" style="..." edge="1" parent="vpc" source="alb" target="ecs-1a">
+  <mxGeometry relative="1" as="geometry" />
 </mxCell>
 ```
 
-**Public / Private subnet (colored):**
-```xml
-<mxCell id="public1" value="Public subnet"
-  style="rounded=0;whiteSpace=wrap;html=1;fillColor=#D5E8D4;strokeColor=#82B366;verticalAlign=top;fontFamily=Noto Sans JP;fontSize=16;container=1;collapsible=0;"
-  vertex="1" parent="vpc1">
-  <mxGeometry x="20" y="40" width="250" height="300" as="geometry"/>
-</mxCell>
-<mxCell id="private1" value="Private subnet"
-  style="rounded=0;whiteSpace=wrap;html=1;fillColor=#D9F2F0;strokeColor=#008080;verticalAlign=top;fontFamily=Noto Sans JP;fontSize=16;container=1;collapsible=0;"
-  vertex="1" parent="vpc1">
-  <mxGeometry x="300" y="40" width="250" height="300" as="geometry"/>
-</mxCell>
-```
+XML のコメント（`<!-- -->`）は書かない。中に `--` が入ると読み込めなくなるうえ、図には何も足さない。
 
-**Cloud platform boundary (dashed, colored border):**
-```xml
-<mxCell id="azure1" value="Azure"
-  style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#0078D4;dashed=1;verticalAlign=top;fontFamily=Noto Sans JP;fontSize=20;fontStyle=1;container=1;collapsible=0;strokeWidth=2;"
-  vertex="1" parent="1">
-  <mxGeometry x="10" y="10" width="800" height="600" as="geometry"/>
-</mxCell>
-```
+属性値の中の `&`、`<`、`>`、`"` は `&amp;`、`&lt;`、`&gt;`、`&quot;` にする。ラベルの改行は `&#xa;` を使う。`\n` はそのまま文字として出てしまう。スタイルには `html=1` を入れる。
 
-**Legend box:**
-```xml
-<mxCell id="legend" value="凡例"
-  style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;verticalAlign=top;align=left;fontFamily=Noto Sans JP;fontSize=14;fontStyle=1;spacingLeft=10;spacingTop=5;"
-  vertex="1" parent="1">
-  <mxGeometry x="20" y="20" width="220" height="90" as="geometry"/>
-</mxCell>
-```
+## 既存の図を直す
 
-**Person icon (UML actor):**
-```xml
-<mxCell id="person1" value="運用担当者"
-  style="shape=umlActor;whiteSpace=wrap;html=1;strokeColor=#333333;fillColor=none;fontFamily=Noto Sans JP;fontSize=14;verticalLabelPosition=bottom;verticalAlign=top;"
-  vertex="1" parent="1">
-  <mxGeometry x="900" y="30" width="40" height="60" as="geometry"/>
-</mxCell>
-```
+既存の .drawio を直すよう頼まれたら、描き直さずにそのファイルを直す。手順は `references/edit.md` にある。
 
-**Arrow connector (data flow, solid):**
-```xml
-<mxCell id="arrow1"
-  style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#333333;strokeWidth=2;exitX=1;exitY=0.5;"
-  edge="1" parent="1" source="rect1" target="rect2">
-  <mxGeometry relative="1" as="geometry"/>
-</mxCell>
-```
+## 出力
 
-**Arrow connector (event, dashed):**
-```xml
-<mxCell id="arrow2"
-  style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#333333;dashed=1;exitX=1;exitY=0.5;"
-  edge="1" parent="1" source="rect1" target="rect2">
-  <mxGeometry relative="1" as="geometry"/>
-</mxCell>
-```
+保存先の指定があればそこに書く。なければ、リポジトリに既存の図の置き場があればそこに、無ければ作業ディレクトリに書く。ファイル名は中身が分かるケバブケースにする（`cloudfront-alb-ecs-aurora.drawio` など）。
 
-**Label (standalone text):**
-```xml
-<mxCell id="label1" value="説明テキスト"
-  style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontFamily=Noto Sans JP;fontSize=14;"
-  vertex="1" parent="1">
-  <mxGeometry x="150" y="200" width="100" height="30" as="geometry"/>
-</mxCell>
-```
+渡すのは `.drawio`。確かめるために書き出した PNG は、`cloudfront-alb-ecs-aurora.drawio.png` のように二重の拡張子で隣に置く。
 
-## Workflow
+書き終えたら、次のことを伝える。上の節で「最後に伝える」としたものは、ここでまとめて書く。
 
-When creating draw.io diagrams:
+- ファイルの場所と、描いたサービス
+- PNG に書き出して目で確かめたかどうか
+- 依頼に無いが足したものと、描かなかったもの
+- まとめて省いた線と、別の描き方もできること
+- 指定が無くて選んだリージョンと、推測したアイコン名、近似で描いたサービス
+- 残した作業用のファイル
+- 判断に迷ったところ
 
-1. **Start with structure:** Define all arrows/edges first
-2. **Add shapes:** Create containers (cloud boundary → VPC/VNet → subnet) with their color coding
-3. **Add icons:** Place service icons (official stencil if confirmed, otherwise category-colored approximation)
-4. **Add labels:** Place standalone text elements and the legend box last
-5. **Verify fonts:** Ensure every text element has `fontFamily` attribute
-6. **Check spacing:** Verify 20px+ clearance between overlapping elements
-7. **Size Japanese text:** Allocate 30-40px width per character
+## ライセンス
 
-## Quality Checklist
-
-Before finalizing diagrams:
-
-- [ ] All text elements have explicit `fontFamily` attribute
-- [ ] Arrows are defined before shapes/labels in XML
-- [ ] Japanese text has adequate width (30-40px per character)
-- [ ] Font size is 18px or larger for readability
-- [ ] Minimum 20px spacing between arrows and labels
-- [ ] No overlapping text elements
-- [ ] Background is white
-- [ ] Cloud platform boundary uses a dashed border in the provider's brand color (not a solid fill)
-- [ ] VPC/VNet uses purple fill; Public subnet uses green fill; Private subnet uses teal fill
-- [ ] Services are represented by icons (official stencil or category-colored approximation), not plain black-bordered text boxes
-- [ ] A legend box (white background, black border) explains arrow meanings (solid = data flow, dashed = event) and any `{env}`-style placeholders
-- [ ] People are represented with the UML actor shape, not plain text
-- [ ] Data-flow arrows are solid; event arrows are dashed
-
-## References
-
-For additional guidance, see:
-- `references/aws-icons.md` - AWS icon usage patterns (if working with AWS diagrams)
-
-## Resources
-
-### references/
-Contains supplementary documentation that can be loaded as needed:
-- AWS service icon naming conventions
-- Common diagram patterns for specific domains
-
-### scripts/
-Reserved for helper scripts (e.g., icon search, validation tools)
-
-### assets/
-Reserved for reusable templates or icon files
+この Skill は sagochiko/aws-drawio-diagram-skill（Apache License 2.0）を元に変更したもの。元にした作品と変えたところは、同じディレクトリの `NOTICE` にあり、ライセンスの全文は `LICENSE` にある。

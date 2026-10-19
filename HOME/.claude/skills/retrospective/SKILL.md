@@ -25,10 +25,10 @@ description: Claude Code のセッションを KPT（Keep / Problem / Try）で�
 ### 対象ファイルの特定
 
 ```bash
-ls -t ~/.claude/projects/"$(pwd | sed 's|/|-|g')"/*.jsonl | head -1
+ls -t ~/.claude/projects/"$(pwd | sed 's|[^A-Za-z0-9]|-|g')"/*.jsonl | head -1
 ```
 
-cwd の `/` を `-` に置換したものがディレクトリ名。mtime が最新の JSONL が実行中のセッションにあたる。
+cwd の英数字以外の文字（`/`、`_`、`.` など）をすべて `-` に置換したものがディレクトリ名。mtime が最新の JSONL が実行中のセッションにあたる。
 
 見つからないときは Cru にパスを尋ねる。推測で別セッションを振り返らない。
 

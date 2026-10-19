@@ -5,7 +5,8 @@
     "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "true",
     "DISABLE_AUTOUPDATER": "true",
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "true",
-    "CLAUDE_DELEGATION_CHECK": "1"
+    "CLAUDE_DELEGATION_CHECK": "1",
+    "CLAUDE_CODE_THRIFTY_SONIC": "false"
   },
   "permissions": {
     "allow": [
@@ -198,5 +199,6 @@
       "いつもきこえてくる 仲間達の声が 孤独を振り払うように 都会の風の中 ただ行くしかないさ 信じた生き様を 嗚呼"
     ]
   },
-  "theme": "dark"
+  "theme": "dark",
+  "model": "sonnet"
 }

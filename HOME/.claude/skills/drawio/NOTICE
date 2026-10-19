@@ -1,0 +1,50 @@
+drawio skill
+
+This skill is licensed under the Apache License, Version 2.0 (see LICENSE).
+It is derived from aws-drawio-diagram-skill
+(https://github.com/sagochiko/aws-drawio-diagram-skill), Copyright 2026
+sagochiko, licensed under the Apache License, Version 2.0.
+
+SKILL.md was modified from skills/aws-drawio-diagram/SKILL.md of that work:
+the skill name and description were changed to cover Azure, GCP and
+Snowflake; a legend is required; icons may be approximated when the
+draw.io shape name cannot be confirmed; explicit fontFamily on every text
+cell and writing edges before icons in the XML were added.
+references/cli.md was modified from that work: rules for exports that
+hang were added. references/edit.md and references/styles.md are
+unmodified copies from that work.
+
+The NOTICE file of aws-drawio-diagram-skill reads:
+
+aws-drawio-diagram
+Copyright 2026 sagochiko
+
+This skill is licensed under the Apache License, Version 2.0 (see LICENSE).
+It is derived from the two works below, both licensed under the Apache
+License, Version 2.0.
+
+1. The drawio skill in the Claude Code plugin of
+   https://github.com/jgraph/drawio-mcp (plugins/claude-code),
+   Copyright 2025 JGraph Ltd. That repository has no NOTICE file.
+   Used in skills/aws-drawio-diagram/SKILL.md: PNG export with the
+   diagram embedded, and the XML structure and well-formedness rules.
+   Used in skills/aws-drawio-diagram/references/cli.md: locating the
+   draw.io desktop CLI on each OS.
+   Not carried over: Mermaid authoring, ELK and other auto-layout, browser
+   URL output, and the shared xml-reference.md. That reference recommends
+   rounded bends on orthogonal edges and discourages explicit connection
+   points, both of which this skill reverses.
+
+2. The aws-architecture-diagram skill in the deploy-on-aws plugin of
+   https://github.com/awslabs/agent-plugins.
+   Used in skills/aws-drawio-diagram/references/styles.md: the group,
+   service icon and edge style strings and the category colors. They were changed afterwards to match
+   the AWS Architecture Icons package of 2026-07-31.
+   The NOTICE file of that repository reads:
+
+   Agent Plugins for AWS
+   Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+
+skills/aws-drawio-diagram/SKILL.md, references/cli.md and
+references/styles.md were modified from the works above, and
+the rules on layout, icons, labels, edges and decoration were added.
