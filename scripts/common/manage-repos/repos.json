@@ -26,6 +26,17 @@
           "dest": "~/.claude/commands/dbt-labs/dbt-agent-skills/auditing-skills"
         }
       ]
+    },
+    {
+      "url": "https://github.com/nanaism/yomiyasu.git",
+      "path": "~/git/nanaism/yomiyasu",
+      "branch": "main",
+      "links": [
+        {
+          "src": "skills/yomiyasu",
+          "dest": "~/.claude/skills/yomiyasu"
+        }
+      ]
     }
   ]
 }
