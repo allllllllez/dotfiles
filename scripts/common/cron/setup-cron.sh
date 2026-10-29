@@ -60,13 +60,31 @@ install_entry() {
 }
 
 show_status() {
-    local current
+    local current line entry script log_file last_run
     current=$(crontab -l 2>/dev/null || true)
-    if echo "${current}" | grep -qF "${CRON_MARKER}"; then
-        echo "INSTALLED:"
-        echo "${current}" | grep -F "${CRON_MARKER}"
-    else
+    if ! echo "${current}" | grep -qF "${CRON_MARKER}"; then
         echo "NOT installed."
+        return 1
+    fi
+
+    line=$(echo "${current}" | grep -F "${CRON_MARKER}")
+    echo "INSTALLED:"
+    echo "${line}"
+
+    entry="${line% "${CRON_MARKER}"}"
+    script="${entry#*bash }"
+
+    log_file="${HOME}/.local/log/git-pull-cron.log"
+    last_run=$(grep 'Daily git pull started' "${log_file}" 2>/dev/null | tail -n 1 || true)
+    echo "最終実行: ${last_run:-記録なし}"
+
+    if [[ ! -f "${script}" ]]; then
+        echo "MISMATCH: 登録されたスクリプトが存在しません: ${script}" >&2
+        return 1
+    fi
+    if [[ "${script}" != "${CRON_SCRIPT}" ]]; then
+        echo "MISMATCH: 登録パスがこのクローンと異なります (登録: ${script} / 期待: ${CRON_SCRIPT})" >&2
+        return 1
     fi
 }
 
