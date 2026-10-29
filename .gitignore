@@ -53,6 +53,9 @@ HOME/.config/uv/
 temp/
 test.md
 
+# ccusage 日次通知: 実行時に npm ci が作る
+scripts/common/cron/ccusage-daily/node_modules/
+
 # ルートの .claude（プロジェクト固有設定）
 /.claude/
 AGENTS.md

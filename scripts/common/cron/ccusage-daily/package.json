@@ -1,0 +1,9 @@
+{
+  "name": "ccusage-daily",
+  "version": "0.0.0",
+  "private": true,
+  "description": "ccusage の日次通知で使うバージョン固定用",
+  "dependencies": {
+    "ccusage": "20.0.45"
+  }
+}
