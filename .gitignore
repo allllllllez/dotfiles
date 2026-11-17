@@ -49,6 +49,10 @@ HOME/.config/gcloud/
 HOME/.config/gcloud-workspace/
 HOME/.config/fish/
 HOME/.config/uv/
+HOME/.config/*
+!HOME/.config/nvim/
+!HOME/.config/starship.toml
+!HOME/.config/vde/
 
 # 一時ファイル
 temp/
