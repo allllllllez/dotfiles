@@ -160,7 +160,7 @@
 | Windows Terminal | ❌ | ❌ | ✅ | |
 | Obsidian | ❌ | ❌ | ✅ | |
 | Ollama | ❌ | ❌ | ✅ | |
-| Google Cloud SDK | ❌ | ❌ | ✅ | |
+| Google Cloud SDK | ✅ (apt) | ❌ | ✅ | |
 | Unity | ❌ | ❌ | ✅ | |
 | Epic Games Launcher | ❌ | ❌ | ✅ | |
 

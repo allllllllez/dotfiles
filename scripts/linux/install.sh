@@ -51,6 +51,14 @@ sudo ./aws/install
     && sudo apt update \
     && sudo apt install gh -y
 
+## Google Cloud CLI
+## cf. https://cloud.google.com/sdk/docs/install#deb
+sudo apt-get install -y ca-certificates gnupg curl \
+    && curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor --yes -o /usr/share/keyrings/cloud.google.gpg \
+    && echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee /etc/apt/sources.list.d/google-cloud-sdk.list > /dev/null \
+    && sudo apt-get update \
+    && sudo apt-get install -y google-cloud-cli
+
 ## nvm + Node.js
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
 export NVM_DIR="$HOME/.nvm"

@@ -46,6 +46,7 @@ HOME/.claude/stats-cache.json
 
 # Google Cloud / その他設定
 HOME/.config/gcloud/
+HOME/.config/gcloud-workspace/
 HOME/.config/fish/
 HOME/.config/uv/
 
