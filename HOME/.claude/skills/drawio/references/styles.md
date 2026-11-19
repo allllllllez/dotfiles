@@ -15,37 +15,37 @@ AWS Cloud、リージョン、VPC、AZ は AWS 公式のアイコンパッケー
 ### AWS Cloud
 
 ```text
-html=1;whiteSpace=wrap;fontSize=12;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_aws_cloud_alt;strokeColor=#000000;fillColor=none;verticalAlign=top;align=left;spacingLeft=30;fontColor=#000000;container=1;collapsible=0;recursiveResize=0
+html=1;whiteSpace=wrap;fontSize=16;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_aws_cloud_alt;strokeColor=#000000;fillColor=none;verticalAlign=top;align=left;spacingLeft=30;fontColor=#000000;container=1;collapsible=0;recursiveResize=0
 ```
 
 ### リージョン
 
 ```text
-html=1;whiteSpace=wrap;fontSize=12;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_region;strokeColor=#00A4A6;fillColor=none;verticalAlign=top;align=left;spacingLeft=30;fontColor=#000000;dashed=1;container=1;collapsible=0;recursiveResize=0
+html=1;whiteSpace=wrap;fontSize=16;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_region;strokeColor=#00A4A6;fillColor=none;verticalAlign=top;align=left;spacingLeft=30;fontColor=#000000;dashed=1;container=1;collapsible=0;recursiveResize=0
 ```
 
 ### VPC
 
 ```text
-html=1;whiteSpace=wrap;fontSize=12;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_vpc2;strokeColor=#8C4FFF;fillColor=none;verticalAlign=top;align=left;spacingLeft=30;fontColor=#000000;container=1;collapsible=0;recursiveResize=0
+html=1;whiteSpace=wrap;fontSize=16;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_vpc2;strokeColor=#8C4FFF;fillColor=none;verticalAlign=top;align=left;spacingLeft=30;fontColor=#000000;container=1;collapsible=0;recursiveResize=0
 ```
 
 ### アベイラビリティゾーン
 
 ```text
-fillColor=none;strokeColor=#00A4A6;dashed=1;verticalAlign=top;align=left;spacingLeft=10;fontSize=12;fontColor=#000000;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0
+fillColor=none;strokeColor=#00A4A6;dashed=1;verticalAlign=top;align=left;spacingLeft=10;fontSize=16;fontColor=#000000;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0
 ```
 
 ### パブリックサブネット
 
 ```text
-html=1;whiteSpace=wrap;fontSize=12;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_security_group;grStroke=0;strokeColor=#7AA116;fillColor=#F2F6E8;verticalAlign=top;align=left;spacingLeft=30;fontColor=#248814;container=1;collapsible=0;recursiveResize=0
+html=1;whiteSpace=wrap;fontSize=16;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_security_group;grStroke=0;strokeColor=#7AA116;fillColor=#F2F6E8;verticalAlign=top;align=left;spacingLeft=30;fontColor=#248814;container=1;collapsible=0;recursiveResize=0
 ```
 
 ### プライベートサブネット
 
 ```text
-html=1;whiteSpace=wrap;fontSize=12;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_security_group;grStroke=0;strokeColor=#00A4A6;fillColor=#E6F6F7;verticalAlign=top;align=left;spacingLeft=30;fontColor=#147EBA;container=1;collapsible=0;recursiveResize=0
+html=1;whiteSpace=wrap;fontSize=16;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_security_group;grStroke=0;strokeColor=#00A4A6;fillColor=#E6F6F7;verticalAlign=top;align=left;spacingLeft=30;fontColor=#147EBA;container=1;collapsible=0;recursiveResize=0
 ```
 
 ## サービスアイコン
@@ -55,7 +55,7 @@ html=1;whiteSpace=wrap;fontSize=12;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.
 `{CATEGORY_COLOR}` と `{shape_name}` を埋める。ラベルは `verticalLabelPosition=bottom` でアイコンの下に出る。
 
 ```text
-fontColor=#16191F;fillColor={CATEGORY_COLOR};strokeColor=#ffffff;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.{shape_name}
+fontColor=#16191F;fillColor={CATEGORY_COLOR};strokeColor=#ffffff;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=16;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.{shape_name}
 ```
 
 ### 独立したシェイプ
@@ -63,7 +63,7 @@ fontColor=#16191F;fillColor={CATEGORY_COLOR};strokeColor=#ffffff;verticalLabelPo
 NAT Gateway や Internet Gateway のように、`resourceIcon` ではなく専用のシェイプを持つもの。
 
 ```text
-fontColor=#16191F;fillColor={CATEGORY_COLOR};strokeColor=none;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;aspect=fixed;shape=mxgraph.aws4.{shape_name}
+fontColor=#16191F;fillColor={CATEGORY_COLOR};strokeColor=none;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=16;aspect=fixed;shape=mxgraph.aws4.{shape_name}
 ```
 
 ### カテゴリの色とアイコン名
@@ -109,6 +109,28 @@ fontColor=#16191F;fillColor={CATEGORY_COLOR};strokeColor=none;verticalLabelPosit
 | センサー | `#7AA116` | `sensor` |
 
 インターネットは `internet` に決める。draw.io には絵が3種類あり、回ごとに変わると同じものに見えなくなる。
+
+## Snowflake
+
+draw.io 内蔵のアイコンは使わず、公式テンプレートから切り出した PNG を使う（SKILL.md の「Snowflake」の節）。切り出した名前は次のとおり。
+
+| 対象 | ファイル名 |
+|---|---|
+| データベース | `icon_database.png` |
+| Snowflake のデータベース | `icon_snowflake_database.png` |
+| スキーマ | `icon_schema.png` |
+| テーブル | `icon_table.png` |
+| ビュー | `icon_view.png` |
+| 動的テーブル | `icon_dynamic_table.png` |
+| タスク | `icon_task.png` |
+| ストアドプロシージャ | `icon_stored_procedure.png` |
+| ボリューム | `icon_volume.png` |
+| ウェアハウス | `icon_warehouse.png` |
+| パイプ | `icon_pipe.png` |
+| ロール | `icon_role.png` |
+| ネットワークポリシー | `icon_network_policy.png` |
+| Kafka コネクタ | `icon_kafka_connector.png` |
+| Snowflake の枠の目印 | `icon_snowflake_bug.png` |
 
 ## 線
 

@@ -15,7 +15,10 @@ description: クラウドの構成図を draw.io の XML（.drawio）で描く�
 
 ## 進め方
 
-1. 構成を把握する。登場するサービス、置き場所（VPC の内か外か、どのサブネットか）、つながりを書き出す
+1. 構成を把握する。登場するサービス、置き場所（VPC の内か外か、どのサブネットか）、つながりを書き出す。図の依頼では、最初の計画に次を 1 行ずつ書き、確認を取る。
+   - 配置の方向と読み順（縦か横か、データがどちらへ流れるか）
+   - 参照する資料（顧客のスライドなど）の有無。あれば依頼と一緒に添えてもらう
+   配置は後から変えると座標の全面的な書き直しになるため、先に決める。
 2. 配置を決める。下の「配置」の決まりに沿って、枠の入れ子と各アイコンの座標を先に決める
 3. XML を分けて書く。枠、線、アイコン、凡例の順に、何回かに分けてファイルへ足していく
 4. draw.io の CLI で PNG に書き出し、自分の目で確かめる
@@ -63,7 +66,7 @@ VPC の外で動くものは、グローバルなサービスかリージョン�
 
 アベイラビリティゾーンは `ap-northeast-1a` のように正式名称で書く。「AZ A」「ゾーン1」のような略記にすると、どのリージョンの構成かが図から読めなくなる。リージョンの指定がなければ、会話の言語から妥当なものを選ぶ。日本語なら東京（`ap-northeast-1`）が自然で、枠の名前に「東京リージョン」のように地名を添えてよい。指定が無くて選んだときは、どのリージョンにしたかを最後に伝える。
 
-アイコンは 60x60 にする。間隔はラベルと線のラベルが収まる最小限にとどめ、広げすぎない。図が広がると、記事や画面に載せたとき全体が縮み、アイコンも文字も小さく見える。目安は、同じ行に並ぶアイコンの中心どうしが横 140 前後、同じ列が縦 160 前後。あいだに線のラベルが入るときだけ縦 210 程度まで広げる。ラベルの付いた横向きの線でつなぐアイコンどうしは、ラベルの幅に左右 20 ずつ足した分だけあいだを空ける。`fontSize=12` の日本語なら1文字およそ 12 で、「ログ・メトリクス」なら中心どうしを 200 前後にする。枠の内側の余白は 20 から 30 にする。
+アイコンは 60x60 にする。間隔はラベルと線のラベルが収まる最小限にとどめ、広げすぎない。図が広がると、記事や画面に載せたとき全体が縮み、アイコンも文字も小さく見える。目安は、同じ行に並ぶアイコンの中心どうしが横 140 前後、同じ列が縦 160 前後。あいだに線のラベルが入るときだけ縦 210 程度まで広げる。ラベルの付いた横向きの線でつなぐアイコンどうしは、ラベルの幅に左右 20 ずつ足した分だけあいだを空ける。`fontSize=16` の日本語なら1文字およそ 12 で、「ログ・メトリクス」なら中心どうしを 200 前後にする。枠の内側の余白は 20 から 30 にする。
 
 VPC の外に置くリージョンのサービス（S3、CloudWatch、Cognito など）は、VPC の右に縦一列に並べる。それぞれの高さは、つながる相手の高さに合わせる。S3 なら、VPC の中から読み書きするサービス（ECS など）があればその高さ、CloudFront から配信するだけならリージョンの枠の上端近くにする。CloudFront はリージョンの枠の外にあるので、同じ高さには置けない。CloudWatch はログを送るサービスの高さにする。置く側をそろえると、回ごとに位置が変わらない。VPC から離しすぎず、VPC の枠との間は 60 から 80 にする。VPC の右の1列に並べると VPC の高さを超えるときは、その右に2列目を足す。2列目には、VPC の中とのつながりが無いもの（CloudFront からだけ使う S3 など）を置く。VPC の中とつながるものを1列目に残せば、線が短いまま保てる。VPC の無い構成では、本流の列の右に並べる。書き出した PNG で、枠の中やサービスのあいだに何も無い区画が目立てば、座標を詰めて書き出し直す。
 
@@ -93,7 +96,17 @@ NAT Gateway と Internet Gateway は、専用のリソースアイコン（`nat_
 
 ## AWS 以外のクラウド
 
-Azure、GCP、Snowflake のサービスは、draw.io に内蔵されている各製品のアイコンで描く。名前の確かめ方と、確証が持てないときの近似は、AWS のアイコンと同じにする。
+Azure と GCP のサービスは、draw.io に内蔵されている各製品のアイコンで描く。名前の確かめ方と、確証が持てないときの近似は、AWS のアイコンと同じにする。
+
+### Snowflake
+
+draw.io 内蔵の Snowflake アイコンは、名前の確証が無いため使わない。Snowflake の公式テンプレート（PPTX）から書き出したアイコンを使う。
+
+- 書き出したアイコンは `assets/snowflake/` にある。名前は `assets/snowflake/index.json` の `name` から選ぶ。`label` はテンプレートでの表記、`category` はテンプレートのページ名。名前は推測せず、必ず `index.json` で引く。
+- 図には、`index.json` の `file` を base64 にして、`shape=image;html=1;verticalLabelPosition=bottom;verticalAlign=top;imageAspect=0;aspect=fixed;image=data:image/svg+xml,<base64>;` で置く。`file` が PNG のときは `data:image/png,<base64>` にする。`data:image/svg+xml;base64,` とは書かない。`;` がスタイルの区切りと衝突し、絵が出なくなる。大きさは長い辺を 60 にし、`index.json` の `width` と `height` の比を保つ。
+- `assets/snowflake/` が無いときは、テンプレートの PPTX の場所を利用者に聞き、`python3 -I scripts/extract_snowflake_icons.py <PPTX>` で書き出す。アイコンのページのスライド番号は、テンプレートの版によって変わる。既定（62、65、67〜70）とページが違うときは `--slides` で指定する。
+- Snowflake の枠（Snowflake アカウント）には、`snowflake_bug` を枠の左上に置く。
+- `index.json` に無いオブジェクト（Task、Stream、Pipe など）は、AWS と同じく近似（色の角丸に記号を白字で載せる）で描き、凡例で近似と伝える。
 
 配置、ラベル、線、凡例、フォント、XML の決まりは、AWS の図と同じものを使う。
 
@@ -114,6 +127,8 @@ Azure、GCP、Snowflake のサービスは、draw.io に内蔵されている各
 文字を持つセルには、すべてスタイルに `fontFamily` を書く。アイコン、枠、線、凡例のどれも対象にする。`mxGraphModel` の `defaultFontFamily` は PNG の書き出しに効かず、セルごとの `fontFamily` だけが使われる。
 
 日本語を含む図は `fontFamily=Noto Sans JP,Noto Sans CJK JP,sans-serif` にする。環境によって入っているフォントの名前が違い、`Noto Sans JP` だけを書くと、その名前が無い環境では英字がセリフ体に落ちる。英語だけの図は `fontFamily=Arial,sans-serif` でよい。`references/styles.md` のスタイル文字列には `fontFamily` が入っていないので、使うときに足す。
+
+文字サイズは、すべての文字を持つセルで `fontSize=16` を既定にする。
 
 ## 線
 
@@ -151,7 +166,7 @@ entryX=0.5;entryY=1;entryDy=24;entryPerimeter=0
 凡例の枠は白い背景と黒い枠線にし、左上に「凡例」と書く。見本の線は凡例の枠を親にした長さ 50 の横線（`source` と `target` を持たず、`mxGeometry` に `sourcePoint` と `targetPoint` を書いた線）にし、図の線と同じスタイルを使う。見本の線の `value` は空にし、意味は線の右に置いたテキストのセルに書く。線の `value` に書くと、文字が線と矢印の先に重なる。「線のラベルは `value` に書く」という決まりは図の線のためのもので、凡例の見本の線には当てはめない。行の間隔は 30 にする。
 
 ```xml
-<mxCell id="legend" value="凡例" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;verticalAlign=top;align=left;spacingLeft=10;spacingTop=4;fontSize=12;fontStyle=1;fontFamily=Noto Sans JP,Noto Sans CJK JP,sans-serif;container=1;collapsible=0;" vertex="1" parent="1">
+<mxCell id="legend" value="凡例" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;verticalAlign=top;align=left;spacingLeft=10;spacingTop=4;fontSize=16;fontStyle=1;fontFamily=Noto Sans JP,Noto Sans CJK JP,sans-serif;container=1;collapsible=0;" vertex="1" parent="1">
   <mxGeometry x="1000" y="0" width="240" height="90" as="geometry" />
 </mxCell>
 <mxCell id="legend-solid" value="" style="(図の本流の線と同じスタイル)" edge="1" parent="legend">
@@ -160,7 +175,7 @@ entryX=0.5;entryY=1;entryDy=24;entryPerimeter=0
     <mxPoint x="60" y="40" as="targetPoint" />
   </mxGeometry>
 </mxCell>
-<mxCell id="legend-solid-text" value="リクエストの本流" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=12;fontFamily=Noto Sans JP,Noto Sans CJK JP,sans-serif;" vertex="1" parent="legend">
+<mxCell id="legend-solid-text" value="リクエストの本流" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=16;fontFamily=Noto Sans JP,Noto Sans CJK JP,sans-serif;" vertex="1" parent="legend">
   <mxGeometry x="70" y="30" width="160" height="20" as="geometry" />
 </mxCell>
 ```
