@@ -77,6 +77,50 @@
             "command": "~/.claude/skills/strategic-compact/suggest-compact.sh"
           }
         ]
+      },
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ~/.claude/scripts/wait_notify.py pretool",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ~/.claude/scripts/wait_notify.py clear",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ~/.claude/scripts/wait_notify.py clear",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ~/.claude/scripts/wait_notify.py clear",
+            "timeout": 10
+          }
+        ]
       }
     ],
     "Stop": [
@@ -84,7 +128,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "powershell.exe -c \"[System.Media.SystemSounds]::Beep.Play()\""
+            "command": "python3 ~/.claude/scripts/wait_notify.py start stop",
+            "timeout": 10
           },
           {
             "type": "command",
@@ -115,7 +160,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "powershell.exe -c \"[System.Media.SystemSounds]::Beep.Play()\""
+            "command": "python3 ~/.claude/scripts/wait_notify.py start permission",
+            "timeout": 10
           }
         ]
       }
